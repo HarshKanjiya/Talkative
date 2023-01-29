@@ -10,6 +10,7 @@ color: #202020;
 display: flex;
 justify-content: space-around;
 align-items: center;
+position: relative;
 `
 
 export const FormWrapper = styled.div`
@@ -193,4 +194,69 @@ height: 45px;
     &:hover{
         box-shadow: 0 .5rem 1.3rem rgba(0,0,0,0.19);
     }
+`
+
+export const Box1 = styled.div`
+content: ' ';
+position: absolute;
+height: 40vmax;
+width: 40vmax;
+border-radius: 1rem;
+transition: 400ms ease-in-out;
+/* transition-delay:  ${props => props.formSelector === "login" ? "400ms" : "200ms"} ; */
+transition-delay: 100ms;
+z-index: 8;
+background: linear-gradient(45deg, #1CB5E0 0%, #000851 100%);
+top:  ${props => props.formSelector === "login" ? "-50%" : "60%"} ;
+right:  ${props => props.formSelector === "login" ? "10%" : "65%"};
+transform: ${props => props.formSelector === "login" ? "rotate(50deg)" : "rotate(-20deg)"};
+`
+
+export const Box2 = styled.div`
+content: ' ';
+position: absolute;
+height: 30vmax;
+width: 30vmax;
+border-radius: 1rem;
+background: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%);
+transition: 400ms ease-in-out;
+/* transition-delay:  ${props => props.formSelector === "login" ? "200ms" : "400ms"} ; */
+transition-delay: 400ms;
+z-index: 7;
+background: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%);
+top:  ${props => props.formSelector === "login" ? "-5%" : "30%"} ;
+right:  ${props => props.formSelector === "login" ? "-10%" : "55%"};
+transform: ${props => props.formSelector === "login" ? "rotate(50deg)" : "rotate(-40deg)"};
+`
+
+export const Box3 = styled.div`
+content: ' ';
+position: absolute;
+height: 50vmax;
+width: 50vmax;
+border-radius: 1rem;
+background-image: linear-gradient(to right, #011344, #0081ab);
+transition: 400ms ease-in-out;
+/* transition-delay:  ${props => props.formSelector === "login" ? "200ms" : "400ms"} ; */
+transition-delay: 200ms;
+z-index: 10;
+top:  ${props => props.formSelector === "login" ? "40%" : "-60%"} ;
+right:  ${props => props.formSelector === "login" ? "-5%" : "55%"};
+transform: ${props => props.formSelector === "login" ? "rotate(-50deg)" : "rotate(10deg)"};
+`
+
+export const Box4 = styled.div`
+content: ' ';
+position: absolute;
+height: 25vmax;
+width: 25vmax;
+border-radius: 1rem;
+background-image: linear-gradient(10deg, #009FFD, #0081ab);
+transition: 400ms ease-in-out;
+/* transition-delay:  ${props => props.formSelector === "login" ? "200ms" : "400ms"} ; */
+transition-delay: 300ms;
+z-index: 12;
+top:  ${props => props.formSelector === "login" ? "35%" : "15%"} ;
+right:  ${props => props.formSelector === "login" ? "23%" : "80%"};
+transform: ${props => props.formSelector === "login" ? "rotate(10deg)" : "rotate(-10deg)"};
 `

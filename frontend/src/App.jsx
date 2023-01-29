@@ -13,6 +13,7 @@ function App() {
 
   return (
       <div className="App" id={theme} >
+      <Bgdiv theme={theme} ></Bgdiv>
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route path="/login" element={<AuthPage/>}/>
@@ -25,3 +26,12 @@ function App() {
 
 export default App
 
+const Bgdiv = styled.div`
+position: absolute;
+height: 100%;
+width: 100%;
+content:" ";
+background-color:${props => (props.theme === "light"? "rgb(237, 241, 243)":"rgb(4, 19, 32)")};
+z-index: -10;
+transition: 300ms;
+`

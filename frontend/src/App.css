@@ -21,14 +21,14 @@
 
 
 #light {
-  background-color: rgb(237, 241, 243);
+  /* background-color: rgb(237, 241, 243); */
   color: #202020;
   -webkit-transition: 400ms; /* For Safari 3.1 to 6.0 */
   transition: 400ms;
 }
 #dark {
   color: rgb(240, 240, 240);
-  background-color: rgb(4, 19, 32);
+  /* background-color: rgb(4, 19, 32); */
   -webkit-transition: 400ms; /* For Safari 3.1 to 6.0 */
   transition: 400ms;
 }

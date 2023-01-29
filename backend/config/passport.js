@@ -1,25 +1,38 @@
-var passport = require("passport");
-var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
-passport.serializeUser(function(user, done) {
- done(null, user);
-});
-passport.deserializeUser(function(user, done) {
- done(null, user);
-});
+const passport = require('passport')
+const passportGoolgeAuth = require("passport-google-oauth20")
+const User = require('../model/userModel')
+
+
+let googleStrategy = passportGoolgeAuth.Strategy;
+
 passport.use(
- new GoogleStrategy(
-  {
-   clientID: "GOOGLE_CLIENT_ID",
-   clientSecret: "GOOGLE_CLIENT_SECRET",
-   callbackURL: "http://localhost:3001/auth/google/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
-   var userData = {
-    email: profile.emails[0].value,
-    name: profile.displayName,
-    token: accessToken
-   };
-   done(null, userData);
-  }
- )
-);
+    new googleStrategy({
+        clientID: `${process.env.GOOGLE_CLIENT_ID}`,
+        clientSecret: `${process.env.GOOGLE_CLIENT_SECRET}`,
+        callbackURL: "/auth/google/callback",
+        scope: ["profile", "email"]
+    },
+        async (_accessToken, _refreshToken, profile, done) => {
+            const user = await User.findByOne({ email: profile.emails[0].value })
+            if (user) {
+                return done(null, user);
+            }
+            else {
+                const newUser = await User.create({
+                    name: profile.name,
+                    email: profile.emails[0].value,
+                    googleID: profile.id
+                })
+                return done(null, newUser);
+            }
+        }
+    )
+)
+
+passport.serializeUser(function (user, done) {
+    done(null, user.googleID);
+});
+passport.deserializeUser( async function (user, done) {
+    const user = await User.findOne({ googleID : user.googleID })
+    done(null, user);
+});

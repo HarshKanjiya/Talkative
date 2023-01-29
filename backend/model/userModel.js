@@ -5,6 +5,11 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
 const userSchema = mongoose.Schema({
+  googleID:{
+    type:String,
+    required:true,
+    default:null
+  },
     name: {
         type: String,
         required: [true, "Name cannot be Empty!"],
@@ -36,7 +41,22 @@ const userSchema = mongoose.Schema({
         ref:"User",
         required:true
       }
+    }],
 
+    requests:[{
+      name:{
+        type:String,
+        required: true
+      },
+      email:{
+        type:String,
+        required: true
+      },
+      id:{
+        type:mongoose.Schema.ObjectId,
+        ref:"User",
+        required:true
+      }
     }],
 
     createAt: {

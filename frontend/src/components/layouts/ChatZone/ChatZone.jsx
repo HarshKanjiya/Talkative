@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { BACKEND_URL } from '../../../config'
+import LoadingLayout from './../loading/LoadingLayout';
 
 const ChatZone = () => {
 
@@ -25,9 +26,9 @@ const ChatZone = () => {
       console.log(err)
     }
   }
-  useEffect(()=>{
-    getUser()
-  },[])
+  // useEffect(()=>{
+  //   getUser()
+  // },[])
 
   return (
     <div>
@@ -43,6 +44,7 @@ const ChatZone = () => {
 
             <button onClick={onclickevent} > sign in with gggggggg </button>
             <button onClick={getUser} >gettt </button>
+            <LoadingLayout size='small' />
           </>)
       }
 

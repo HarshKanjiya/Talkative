@@ -8,6 +8,9 @@ export default defineConfig({
     proxy: {
       '/api':{
         target:"http://localhost:5050"
+      },
+      "/auth":{
+        target:"http://localhost:5050"
       }
     }
   },

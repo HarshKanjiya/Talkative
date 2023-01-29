@@ -1,5 +1,6 @@
 const server = require('./app')
 const dotenv = require("dotenv");
+const passportSetup =   require("./config/passport")
 const connectDataBase = require('./config/database');
 
 

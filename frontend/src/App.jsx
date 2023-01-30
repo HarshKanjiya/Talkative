@@ -1,23 +1,29 @@
 import "./App.css"
 import styled from "@emotion/styled"
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useLocation } from "react-router-dom"
 import HomePage from "./components/pages/Home/Home"
 import { useState } from "react"
 import { useSelector } from "react-redux"
 import AuthPage from "./components/pages/Auth/AuthPage"
+import { AnimatePresence } from "framer-motion"
 
 
 
 function App() {
+  
+  const location = useLocation();
+
   const { theme } = useSelector(state => state.native)
 
   return (
       <div className="App" id={theme} >
       <Bgdiv theme={theme} ></Bgdiv>
-        <Routes>
+      <AnimatePresence mode="wait" >
+        <Routes key={location.pathname} location={location} >
           <Route exact path="/" element={<HomePage />} />
           <Route path="/login" element={<AuthPage/>}/>
         </Routes>
+      </AnimatePresence>
 
 
       </div>

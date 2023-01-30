@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { motion } from 'framer-motion';
 
-export const AuthPageWrapper = styled.div`
+export const AuthPageWrapper = styled(motion.div)`
 width: 100vw;
 height: 100vh;
 overflow: hidden;
@@ -13,7 +13,7 @@ align-items: center;
 position: relative;
 `
 
-export const FormWrapper = styled.div`
+export const FormWrapper = styled(motion.div)`
 display: flex;
 flex-direction: column;
 gap:3rem;
@@ -27,7 +27,7 @@ margin: 1rem;
 
 export const Header = styled.div`
 display: flex;
-justify-content: space-between;
+justify-content: flex-end;
 align-items: center;
 font-size: 0.9rem;
 
@@ -145,6 +145,8 @@ align-items: center;
     
 }
 `
+
+//* call to actions
 export const SubmitButtonWrapper = styled.button`
 outline:none;
 border:none;
@@ -178,7 +180,6 @@ p{
     box-shadow: 0 0.5rem 1.5rem rgba(28, 52, 255,0.39);
     }
 `
-
 export const GoogleSignInBtn = styled.button`
 height: 45px;
     width: 45px;
@@ -196,11 +197,13 @@ height: 45px;
     }
 `
 
+
+//* boxes
 export const Box1 = styled.div`
 content: ' ';
 position: absolute;
-height: 40vmax;
-width: 40vmax;
+height: 40vw;
+width: 40vw;
 border-radius: 1rem;
 transition: 400ms ease-in-out;
 /* transition-delay:  ${props => props.formSelector === "login" ? "400ms" : "200ms"} ; */
@@ -211,14 +214,12 @@ top:  ${props => props.formSelector === "login" ? "-50%" : "60%"} ;
 right:  ${props => props.formSelector === "login" ? "10%" : "65%"};
 transform: ${props => props.formSelector === "login" ? "rotate(50deg)" : "rotate(-20deg)"};
 `
-
 export const Box2 = styled.div`
 content: ' ';
 position: absolute;
-height: 30vmax;
-width: 30vmax;
+height: 40vw;
+width: 40vw;
 border-radius: 1rem;
-background: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%);
 transition: 400ms ease-in-out;
 /* transition-delay:  ${props => props.formSelector === "login" ? "200ms" : "400ms"} ; */
 transition-delay: 400ms;
@@ -228,12 +229,11 @@ top:  ${props => props.formSelector === "login" ? "-5%" : "30%"} ;
 right:  ${props => props.formSelector === "login" ? "-10%" : "55%"};
 transform: ${props => props.formSelector === "login" ? "rotate(50deg)" : "rotate(-40deg)"};
 `
-
 export const Box3 = styled.div`
 content: ' ';
 position: absolute;
-height: 50vmax;
-width: 50vmax;
+height: 50vw;
+width: 50vw;
 border-radius: 1rem;
 background-image: linear-gradient(to right, #011344, #0081ab);
 transition: 400ms ease-in-out;
@@ -244,12 +244,11 @@ top:  ${props => props.formSelector === "login" ? "40%" : "-60%"} ;
 right:  ${props => props.formSelector === "login" ? "-5%" : "55%"};
 transform: ${props => props.formSelector === "login" ? "rotate(-50deg)" : "rotate(10deg)"};
 `
-
 export const Box4 = styled.div`
 content: ' ';
 position: absolute;
-height: 25vmax;
-width: 25vmax;
+height: 25vw;
+width: 25vw;
 border-radius: 1rem;
 background-image: linear-gradient(10deg, #009FFD, #0081ab);
 transition: 400ms ease-in-out;

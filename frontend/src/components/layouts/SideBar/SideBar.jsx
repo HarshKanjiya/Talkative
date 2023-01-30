@@ -6,8 +6,12 @@ import { AnimatePresence } from 'framer-motion';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
 import Img from "../../../assets/sidebarBg.jpg"
+import { useNavigate } from 'react-router-dom';
 
 const SideBar = () => {
+
+  const navigate = useNavigate()
+
   const [extended, setExtended] = useState(false)
   const { theme } = useSelector(state => state.native)
   return (
@@ -122,7 +126,7 @@ const SideBar = () => {
 
 
         {/* //* log out btn */}
-        <SideBarElementWrapper theme={theme} extended={extended} btn="logout" >
+        <SideBarElementWrapper theme={theme} extended={extended} btn="logout" onClick={() => { navigate('/login') }} >
           <SideBarElement theme={theme} ><LogoutIcon /></SideBarElement>
         </SideBarElementWrapper>
       </Container>

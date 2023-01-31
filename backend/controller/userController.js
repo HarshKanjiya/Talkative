@@ -8,7 +8,7 @@ const crypto = require("crypto");
 
 // register user
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-    const { name, email, password, confirmPassword } = req.body;
+    const { name, email, password } = req.body;
 
     if (name.trim() === '') {
         next(new ErrorHandler("Please Enter Your Name!", 400));
@@ -19,14 +19,12 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     if (password.trim() === '') {
         next(new ErrorHandler("Please Create a Strong Password!", 400));
     }
-    if (password !== confirmPassword) {
-        return next(new ErrorHandler("Confirm Password Does not match to Password!", 400));
-    }
 
     const user = await User.create({
         name,
         email: email.toLowerCase(),
-        password
+        password,
+        googleID:email
     });
 
     sendToken(user, 201, res);

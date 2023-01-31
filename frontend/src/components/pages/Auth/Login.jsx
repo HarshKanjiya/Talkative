@@ -17,6 +17,7 @@ import { logInThunk } from './../../../redux/thunk/userThunk';
 import { useSelector } from 'react-redux';
 import { PopUp } from '../../components/pop up/PopUp';
 import { clearErrorsInUserSlice } from '../../../redux/slices/userSlice';
+import { BACKEND_URL } from './../../../config';
 
 const LoginLayout = ({ formSelector, changeForm }) => {
 
@@ -31,18 +32,6 @@ const LoginLayout = ({ formSelector, changeForm }) => {
   const [emailValidity, setEmailValidity] = useState(false)  //false means not valid
   const [passwordValidity, setPasswordValidity] = useState(false)  //false means not valid
 
-  useEffect(() => {
-    if (isAuthenticated === true) {
-      navigate('/')
-    }
-    if (error) {
-      PopUp({
-        text: error,
-        icon: "error",
-      })
-      dispatch(clearErrorsInUserSlice())
-    }
-  }, [isAuthenticated, error])
 
   const HelperEmailChange = (e) => {
     setEmail(e.target.value)
@@ -50,11 +39,15 @@ const LoginLayout = ({ formSelector, changeForm }) => {
   const HelperPasswordChange = (e) => {
     setPassword(e.target.value)
   }
-
   const HelperSubmitForm = (e) => {
     e.preventDefault()
     dispatch(logInThunk({ email, password }))
   }
+
+  const HelperGoogleAuth = () => {
+    window.open(`${BACKEND_URL}/auth/google/callback`, "_self");
+  }
+
   return (
     <AnimatePresence mode='wait'>
       {
@@ -107,7 +100,7 @@ const LoginLayout = ({ formSelector, changeForm }) => {
                 <p className='auth-footer-or'>or</p>
 
                 {/* //*google sign in btn */}
-                <GoogleSignInBtn>
+                <GoogleSignInBtn onClick={HelperGoogleAuth} > 
                   <svg
                     width="25"
                     height="37"

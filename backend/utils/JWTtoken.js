@@ -2,9 +2,10 @@
 const sendToken = (user, statusCode, res) => {
     const token = user.getJWTToken();
   
+    // console.log('token :>> ', token);
     // options
     const options = {
-      expires : new Date(
+      maxAge : new Date(
         Date.now() + 432000000
       ),
       httpOnly: true,

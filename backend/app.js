@@ -5,8 +5,7 @@ const cors = require("cors")
 const dotenv = require('dotenv')
 const path = require('path')
 const cookieParser = require('cookie-parser')
-const bodyparser = require('body-parser')
-const app = express()
+const bodyParser = require('body-parser')
 var passport = require("passport");
 const session = require("express-session")
 
@@ -14,6 +13,11 @@ const session = require("express-session")
 const errorMiddleWare = require("./middleware/error");
 dotenv.config({ path: "./backend/config/config.env" });
 
+const app = express()
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 app.use(
     session({
         secret: "qazxswedcvfrtgbnhyujmkilop",
@@ -25,16 +29,13 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session())
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
 // app.use(bodyparser.urlencoded({ extended: false }));
-app.use(bodyparser.json())
-app.use(cookieParser());
+// app.use(bodyParser.json())
 app.use(cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials:true
+    origin: [],
+    withCredentials: true
 }));
+
 
 // app.use(express.static("client/build"));
 

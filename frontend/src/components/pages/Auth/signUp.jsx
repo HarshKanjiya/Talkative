@@ -13,6 +13,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { BACKEND_URL } from './../../../config';
 
 const SignUpLayout = ({ formSelector, changeForm }) => {
     const navigate = useNavigate()
@@ -51,6 +52,11 @@ const SignUpLayout = ({ formSelector, changeForm }) => {
     const HelperSubmitForm = (e) => {
         e.preventDefault()
     }
+
+    const HelperGoogleAuth = () => {
+        window.open(`${BACKEND_URL}/auth/google/callback`, "_self");
+    }
+
     return (
         <AnimatePresence mode="wait">
             {
@@ -111,7 +117,7 @@ const SignUpLayout = ({ formSelector, changeForm }) => {
                                 <p className='auth-footer-or'>or</p>
 
                                 {/* //*google sign in btn */}
-                                <GoogleSignInBtn>
+                                <GoogleSignInBtn onClick={HelperGoogleAuth} >
                                     <svg
                                         width="25"
                                         height="37"

@@ -10,16 +10,17 @@ const ChatZone = () => {
   const onclickevent = () => {
     window.open(`${BACKEND_URL}/auth/google/callback`, "_self");
   }
-  
-  const logout = ()=> {
+
+  const logout = () => {
     window.open(`${BACKEND_URL}/auth/logout`, "_self");
-    
+
   }
 
   const getUser = async () => {
     try {
       const url = `${BACKEND_URL}/auth/login/success`
       const { data } = await axios.get(url, { withCredentials: true });
+      console.log('data :>> ', data);
       setUser(data.user)
     }
     catch (err) {

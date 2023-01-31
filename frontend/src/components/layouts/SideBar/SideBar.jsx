@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
 import { Container, SideBarElement, SideBarElementWrapper, SideBarExtender, SideBarImgWrapper, Wrapper } from './SideBar.styles'
 import LogoutIcon from '@mui/icons-material/Logout';
 import { AnimatePresence } from 'framer-motion';
@@ -7,13 +6,32 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 
 import Img from "../../../assets/sidebarBg.jpg"
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { logOutThunk } from '../../../redux/thunk/userThunk';
 
 const SideBar = () => {
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { userData, loading } = useSelector(state => state.user)
 
   const [extended, setExtended] = useState(false)
   const { theme } = useSelector(state => state.native)
+
+  
+
+  const HelperSignOut = () => {
+    if (!userData) return;
+    console.log('working :>> ');
+    if (userData.email === userData.googleID) {
+      dispatch(logOutThunk({}))
+    }
+    else {
+      window.open(`${BACKEND_URL}/auth/logout`, "_self");
+    }
+  }
+
   return (
     <Wrapper theme={theme} extended={extended}>
       <Container theme={theme}>
@@ -126,7 +144,7 @@ const SideBar = () => {
 
 
         {/* //* log out btn */}
-        <SideBarElementWrapper theme={theme} extended={extended} btn="logout" onClick={() => { navigate('/login') }} >
+        <SideBarElementWrapper theme={theme} extended={extended} btn="logout" onClick={HelperSignOut} >
           <SideBarElement theme={theme} ><LogoutIcon /></SideBarElement>
         </SideBarElementWrapper>
       </Container>

@@ -20,10 +20,12 @@ exports.isAuthenticatedUser = catchAsyncError(async (req, res, next) => {
 exports.forRoutineCheck = catchAsyncError(async (req, res, next) => {
   const { token } = req.cookies;
 
-  console.log('token :>> ', token);
+  // console.log('Cookies: ', req.cookies)
+
+  // console.log('token :>> ', token);
 
   if (!token) {
-    return next(new ErrorHandler("routine123", 200))
+    return next(new ErrorHandler("routine123", 401))
   }
   const decodedData = jwt.verify(token, process.env.JWT_SECRET_KEY);
 

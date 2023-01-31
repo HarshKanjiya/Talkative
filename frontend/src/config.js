@@ -11,4 +11,7 @@ export const apiHeaderConfig = {
     },
 }
 
-export const logInAPI = "/api/v1/login"
+// auth apis
+export const logInAPI = "/api/v1/user/login"
+export const logoutAPI = "/api/v1/user/logout"
+export const routineAPI = "/api/v1/user/routinecheck"

@@ -7,8 +7,7 @@ const crypto = require("crypto");
 const userSchema = mongoose.Schema({
   googleID: {
     type: String,
-    required: true,
-    default: null
+    default: ""
   },
   name: {
     type: String,
@@ -21,9 +20,12 @@ const userSchema = mongoose.Schema({
     unique: true,
     validate: [validator.isEmail, "Please Enter a valid Email"],
   },
+  status: {
+    type: String,
+    default: "offline"
+  },
   password: {
     type: String,
-    required: [true, "please Enter your Password"],
     minLength: [8, "Password should be atleast 8 charactors"],
     select: false,
   },
@@ -74,7 +76,7 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
-  this.password = bycrypt.hash(this.password, 10);
+  this.password = await bycrypt.hash(this.password, 10);
 });
 
 //jwt tokem

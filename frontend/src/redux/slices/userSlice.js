@@ -1,6 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit"
-import { logInThunk, logOutThunk } from "../thunk/userThunk"
+import { logInThunk, logOutThunk, registerThunk } from "../thunk/userThunk"
 import { routineThunk } from './../thunk/userThunk';
 
 const userSlice = createSlice({
@@ -28,10 +28,9 @@ const userSlice = createSlice({
             state.userData = payload
         });
         builder.addCase(routineThunk.rejected, (state, { payload }) => {
-            state.isAuthenticated = false;
             state.loading = false;
+            state.isAuthenticated = false;
             state.error = payload;
-            state.userData = null;
         });
 
         //* login
@@ -45,6 +44,22 @@ const userSlice = createSlice({
             state.userData = payload
         });
         builder.addCase(logInThunk.rejected, (state, { payload }) => {
+            state.isAuthenticated = false;
+            state.loading = false;
+            state.error = payload;
+            state.userData = null;
+        });
+        //* register
+        builder.addCase(registerThunk.pending, (state, { payload }) => {
+            state.loading = true;
+            state.isAuthenticated = false
+        });
+        builder.addCase(registerThunk.fulfilled, (state, { payload }) => {
+            state.loading = false;
+            state.isAuthenticated = true
+            state.userData = payload
+        });
+        builder.addCase(registerThunk.rejected, (state, { payload }) => {
             state.isAuthenticated = false;
             state.loading = false;
             state.error = payload;

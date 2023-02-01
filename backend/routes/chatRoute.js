@@ -1,8 +1,9 @@
 const express = require('express');
-const { newMessage } = require('../controller/chatController');
+const { startChatRoom } = require('../controller/chatController');
+const { isAuthenticatedUser } = require('../middleware/auth');
 const router = express.Router()
 
-router.route('/chat/message/send').post(newMessage)
+router.route('/getroom').post( isAuthenticatedUser, startChatRoom )
 
 
 

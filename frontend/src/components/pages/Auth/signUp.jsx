@@ -14,9 +14,12 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { BACKEND_URL } from './../../../config';
+import { useDispatch } from 'react-redux';
+import { registerThunk } from '../../../redux/thunk/userThunk';
 
 const SignUpLayout = ({ formSelector, changeForm }) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -51,6 +54,8 @@ const SignUpLayout = ({ formSelector, changeForm }) => {
 
     const HelperSubmitForm = (e) => {
         e.preventDefault()
+        dispatch(registerThunk({ name, email, password }))
+
     }
 
     const HelperGoogleAuth = () => {
@@ -110,7 +115,7 @@ const SignUpLayout = ({ formSelector, changeForm }) => {
 
                                 {/* //* native sign in btn */}
                                 <SubmitButtonWrapper type='submit' >
-                                    <p>Log in</p>
+                                    <p>SIGN UP</p>
                                     <div className='auth-footer-submit-btn-arrow' > <ArrowForwardIcon /> </div>
                                 </SubmitButtonWrapper>
 

@@ -4,6 +4,7 @@ const User = require("../model/userModel");
 const sendToken = require("../utils/JWTtoken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
+const ApiFeture = require("../utils/searchFeature")
 
 
 // register user
@@ -11,20 +12,19 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     const { name, email, password } = req.body;
 
     if (name.trim() === '') {
-        next(new ErrorHandler("Please Enter Your Name!", 400));
+        return next(new ErrorHandler("Please Enter Your Name!", 400));
     }
     if (email.trim() === '') {
-        next(new ErrorHandler("Please Enter Your Email!", 400));
+        return next(new ErrorHandler("Please Enter Your Email!", 400));
     }
     if (password.trim() === '') {
-        next(new ErrorHandler("Please Create a Strong Password!", 400));
+        return next(new ErrorHandler("Please Create a Strong Password!", 400));
     }
 
     const user = await User.create({
         name,
         email: email.toLowerCase(),
         password,
-        googleID:email
     });
 
     sendToken(user, 201, res);
@@ -131,7 +131,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler("password doesn't match!", 400));
     }
 
-    if ( (req.body.password.trim() === '')) {
+    if ((req.body.password.trim() === '')) {
         return next(new ErrorHandler("Please Enter a valid Password!", 400));
     }
 
@@ -140,7 +140,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
     user.resetPasswordExpire = undefined;
 
 
-    user = await User.findOne({ _id: user._id});
+    user = await User.findOne({ _id: user._id });
 
 
     sendToken(user, 200, res);
@@ -180,5 +180,36 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 
 // update password from profile
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
+})
+
+exports.searchFriend = catchAsyncErrors(async (req, res, next) => {
+    const { userId } = req.body;
+    const keyword = req.query.keyword;
+
+    // const nameSearch = new ApiFeture(User.find(), query).searchForName();
+    // const emailSearch = new ApiFeture(User.find(), query).searchForEmail();
+    // const nameResults = await nameSearch.query;
+    // const emailResults = await nameSearch.query;
+
+    const nameResults = await User.find({ name: { '$regex': keyword, '$options': 'i' } })
+    const emailResults = await User.find({ email: { '$regex': keyword, '$options': 'i' } })
+
+    let searchResult = [...nameResults, ...emailResults].filter((item, pos, self) => { return self.indexOf(item) == pos })
+
+    searchResult = searchResult.filter((i) => {
+        if (i._id !== `new ObjectId("${userId}")` ) {
+            console.log('i :>> ', i._id);
+            return true
+        }
+    })
+
+
+    res.status(200).json({
+        success: true,
+        searchResult
+    });
+
+})
+exports.addFriend = catchAsyncErrors(async (req, res, next) => {
 
 })

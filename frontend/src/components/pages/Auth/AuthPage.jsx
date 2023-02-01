@@ -4,13 +4,15 @@ import { AuthPageWrapper, Box1, Box2, Box3, Box4 } from "./styles.js"
 import SignUpLayout from './signUp';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrorsInUserSlice } from '../../../redux/slices/userSlice.js';
+import { useNavigate } from 'react-router-dom';
 
 const AuthPage = () => {
-  const [formSelector, setFormSelector] = useState('signup')
-
+  
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const { isAuthenticated,error } = useSelector(state => state.user)
-
+  
+  const [formSelector, setFormSelector] = useState('login')
     useEffect(() => {
     if (isAuthenticated === true) {
       navigate('/')

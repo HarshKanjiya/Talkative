@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { apiHeaderConfig, logInAPI, logoutAPI, routineAPI } from "../../config";
+import { apiHeaderConfig, logInAPI, logoutAPI, registerAPI, routineAPI } from "../../config";
 
 
 export const logInThunk = createAsyncThunk(
@@ -12,11 +12,23 @@ export const logInThunk = createAsyncThunk(
             return data.user
         }
         catch (err) {
-            rejectWithValue(err.response.data.message)
+            return rejectWithValue(err.response.data.message)
         }
     }
 )
-
+export const registerThunk = createAsyncThunk(
+    'user/register',
+    async ({ name, email, password }, { rejectWithValue }) => {
+        try {
+            const { data } = await axios.post(registerAPI, { name, email, password }, apiHeaderConfig)
+            console.log('data.user :>> ', data.user);
+            return data.user
+        }
+        catch (err) {
+            return rejectWithValue(err.response.data.message)
+        }
+    }
+)
 export const logOutThunk = createAsyncThunk(
     'user/logOut',
     async ({ }, { rejectWithValue }) => {
@@ -26,21 +38,21 @@ export const logOutThunk = createAsyncThunk(
             return data
         }
         catch (err) {
-            rejectWithValue(err.response.data.message)
+            return rejectWithValue(err.response.data.message)
         }
     }
 )
-
-
 export const routineThunk = createAsyncThunk(
     'user/routine',
     async ({ }, { rejectWithValue }) => {
         try {
             const { data } = await axios.get(routineAPI, { withCredentials: true })
+            console.log('user :>> ', data.user);
             return data.user
         }
         catch (err) {
-            rejectWithValue(err.response.data.message)
+            console.log('err :>> ', err);
+            return rejectWithValue(err.response.data.message)
         }
     }
 )

@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { logOutThunk } from '../../../redux/thunk/userThunk';
+import { BACKEND_URL } from '../../../config';
 
 const SideBar = () => {
 
@@ -19,16 +20,16 @@ const SideBar = () => {
   const [extended, setExtended] = useState(false)
   const { theme } = useSelector(state => state.native)
 
-  
+
 
   const HelperSignOut = () => {
     if (!userData) return;
     console.log('working :>> ');
-    if (userData.email === userData.googleID) {
+    if (userData.googleID.trim() === "") {
       dispatch(logOutThunk({}))
     }
     else {
-      window.open(`${BACKEND_URL}/auth/logout`, "_self");
+      // window.open(`${BACKEND_URL}/auth/logout`, "_self");
     }
   }
 

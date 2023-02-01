@@ -12,7 +12,7 @@ router.get('/login/success', (req, res) => {
         })
     }
     else {
-        res.status(403).json({
+        res.status(401).json({
             success: false,
             message: 'Not authorized!'
         })

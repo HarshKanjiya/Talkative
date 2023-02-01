@@ -36,16 +36,16 @@ exports.forRoutineCheck = catchAsyncError(async (req, res, next) => {
 });
 
 
-exports.authorizedRoles = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return next(
-        new ErrorHandler(
-          `Role: ${req.user.role} is not allowed to Access this Resource!`,
-          403
-        )
-      );
-    }
-    next();
-  };
-};
+// exports.authorizedRoles = (...roles) => {
+//   return (req, res, next) => {
+//     if (!roles.includes(req.user.role)) {
+//       return next(
+//         new ErrorHandler(
+//           `Role: ${req.user.role} is not allowed to Access this Resource!`,
+//           403
+//         )
+//       );
+//     }
+//     next();
+//   };
+// };

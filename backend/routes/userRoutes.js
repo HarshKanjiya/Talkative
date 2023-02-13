@@ -16,6 +16,6 @@ router.route('/password/reset/:token').post(resetPassword)
 router.route("/profile/password/update").put(isAuthenticatedUser, updatePassword);
 router.route("/profile/details/update").put(isAuthenticatedUser, updateProfile);
 
-router.route("/friend/search").post( searchFriend)
+router.route("/friend/search").get(isAuthenticatedUser, searchFriend)
 
 module.exports = router

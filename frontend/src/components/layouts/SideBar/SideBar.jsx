@@ -2,7 +2,11 @@ import React, { useState } from 'react'
 import { Container, SideBarElement, SideBarElementWrapper, SideBarExtender, SideBarImgWrapper, Wrapper } from './SideBar.styles'
 import LogoutIcon from '@mui/icons-material/Logout';
 import { AnimatePresence } from 'framer-motion';
+
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import InfoIcon from '@mui/icons-material/Info';
+import BlockIcon from '@mui/icons-material/Block';
+import PersonIcon from '@mui/icons-material/Person';
 
 import Img from "../../../assets/sidebarBg.jpg"
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +14,10 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { logOutThunk } from '../../../redux/thunk/userThunk';
 import { BACKEND_URL } from '../../../config';
+
+import { motion } from "framer-motion"
+import { Badge } from '@mui/material';
+import { setScreen } from '../../../redux/slices/nativeSlice';
 
 const SideBar = () => {
 
@@ -24,19 +32,19 @@ const SideBar = () => {
 
   const HelperSignOut = () => {
     if (!userData) return;
-    console.log('working :>> ');
-    if (userData.googleID.trim() === "") {
-      dispatch(logOutThunk({}))
+    if (userData.authType === "native") {
+      return dispatch(logOutThunk({}))
     }
-    else {
-      // window.open(`${BACKEND_URL}/auth/logout`, "_self");
+    if (userData.authType === "google") {
+      dispatch(logOutThunk({}))
+      window.open(`${BACKEND_URL}/auth/logout`, "_self");
     }
   }
+
 
   return (
     <Wrapper theme={theme} extended={extended}>
       <Container theme={theme}>
-        <SideBarImgWrapper extended={extended} ><img src={Img} /></SideBarImgWrapper>
 
         {/* //* open - close btn */}
         <SideBarElementWrapper theme={theme} extended={extended} >
@@ -49,7 +57,8 @@ const SideBar = () => {
                   animate={{ rotate: "0deg", opacity: 1 }}
                   exit={{ rotate: '-90deg', opacity: 0 }}
                   transition={{ duration: 0.15 }}
-                  theme={theme} onClick={() => { setExtended(!extended) }}
+                  theme={theme}
+                  onClick={() => { setExtended(!extended) }}
                 >
                   <svg height="23" width="23" viewBox="0 0 64 64" version="1.1"
                     xmlns="http://www.w3.org/2000/svg">
@@ -64,7 +73,8 @@ const SideBar = () => {
                   animate={{ rotate: "0deg", opacity: 1 }}
                   exit={{ rotate: '90deg', opacity: 0 }}
                   transition={{ duration: 0.15 }}
-                  theme={theme} onClick={() => { setExtended(!extended) }}
+                  theme={theme}
+                  onClick={() => { setExtended(!extended) }}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" height="23" width="23" viewBox="0 0 64 64">
                     <g strokeLinecap="square" strokeWidth="5" fill="none" strokeLinejoin="miter" strokeMiterlimit="10">
@@ -76,78 +86,138 @@ const SideBar = () => {
             }
           </AnimatePresence>
 
-          <SideBarElement theme={theme} >
-            <AccountCircleOutlinedIcon />
+
+          {/* //* Profile */}
+          <SideBarElement theme={theme} extended={extended} onClick={() => { dispatch(setScreen('profile')) }} >
+            <abbr title="Profile" className="modeAbbr" ><AccountCircleOutlinedIcon /></abbr>
+            <AnimatePresence>
+              {
+                extended ?
+                  <motion.p
+                    key="text"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+
+                  >Profile</motion.p>
+                  :
+                  <motion.p key="blank"> </motion.p>
+              }
+            </AnimatePresence>
           </SideBarElement>
 
-          <SideBarElement theme={theme} >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              data-name="Layer 1"
-              viewBox="0 0 512 512"
-              height="23"
-              width="23"
-              stroke={theme === "light" ? "rgb(20,20,20)" : "rgb(240, 240, 240)"}
-              strokeWidth="30"
-            ><g data-name="&lt;Group&gt;"><path d="M359,344.9a170.577,170.577,0,0,0,43.4-113.8c0-94.5-76.9-171.3-171.3-171.3-94.5,0-171.3,76.9-171.3,171.3s76.9,171.3,171.3,171.3A170.577,170.577,0,0,0,344.9,359l90.3,90.3a9.82,9.82,0,0,0,7.1,2.9,10.243,10.243,0,0,0,7.1-2.9,9.959,9.959,0,0,0,0-14.1ZM79.7,231.1c0-83.4,67.9-151.3,151.3-151.3s151.3,67.9,151.3,151.3S314.4,382.4,231,382.4,79.7,314.5,79.7,231.1Z" data-name="&lt;Compound Path&gt;" /></g></svg>
+          {/* //*  Add friend */}
+          <SideBarElement theme={theme} extended={extended} onClick={() => { dispatch(setScreen('addfriend')) }}>
+            <abbr title="Add Friend" className="modeAbbr" >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                data-name="Layer 1"
+                viewBox="0 0 100 100"
+                height="23"
+                width="23"
+                stroke={theme === "light" ? "rgb(20,20,20)" : "rgb(240, 240, 240)"}
+                strokeWidth="12"
+              >
+                <g data-name="&lt;Group&gt;">
+                  <line x1="50" y1="5" x2="50" y2="95" ></line>
+                  <line x1="5" y1="50" x2="95" y2="50" ></line>
+                </g></svg>
+            </abbr>
+            {
+              extended ?
+                <motion.p
+                  key="text"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
 
-          </SideBarElement>
-          <SideBarElement theme={theme} >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              data-name="Layer 1"
-              viewBox="0 0 512 512"
-              height="23"
-              width="23"
-              stroke={theme === "light" ? "rgb(20,20,20)" : "rgb(240, 240, 240)"}
-              strokeWidth="30"
-            ><g data-name="&lt;Group&gt;"><path d="M359,344.9a170.577,170.577,0,0,0,43.4-113.8c0-94.5-76.9-171.3-171.3-171.3-94.5,0-171.3,76.9-171.3,171.3s76.9,171.3,171.3,171.3A170.577,170.577,0,0,0,344.9,359l90.3,90.3a9.82,9.82,0,0,0,7.1,2.9,10.243,10.243,0,0,0,7.1-2.9,9.959,9.959,0,0,0,0-14.1ZM79.7,231.1c0-83.4,67.9-151.3,151.3-151.3s151.3,67.9,151.3,151.3S314.4,382.4,231,382.4,79.7,314.5,79.7,231.1Z" data-name="&lt;Compound Path&gt;" /></g></svg>
-
-          </SideBarElement>
-          <SideBarElement theme={theme} >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              data-name="Layer 1"
-              viewBox="0 0 512 512"
-              height="23"
-              width="23"
-              stroke={theme === "light" ? "rgb(20,20,20)" : "rgb(240, 240, 240)"}
-              strokeWidth="30"
-            ><g data-name="&lt;Group&gt;"><path d="M359,344.9a170.577,170.577,0,0,0,43.4-113.8c0-94.5-76.9-171.3-171.3-171.3-94.5,0-171.3,76.9-171.3,171.3s76.9,171.3,171.3,171.3A170.577,170.577,0,0,0,344.9,359l90.3,90.3a9.82,9.82,0,0,0,7.1,2.9,10.243,10.243,0,0,0,7.1-2.9,9.959,9.959,0,0,0,0-14.1ZM79.7,231.1c0-83.4,67.9-151.3,151.3-151.3s151.3,67.9,151.3,151.3S314.4,382.4,231,382.4,79.7,314.5,79.7,231.1Z" data-name="&lt;Compound Path&gt;" /></g></svg>
-
-          </SideBarElement>
-          <SideBarElement theme={theme} >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              data-name="Layer 1"
-              viewBox="0 0 512 512"
-              height="23"
-              width="23"
-              stroke={theme === "light" ? "rgb(20,20,20)" : "rgb(240, 240, 240)"}
-              strokeWidth="30"
-            ><g data-name="&lt;Group&gt;"><path d="M359,344.9a170.577,170.577,0,0,0,43.4-113.8c0-94.5-76.9-171.3-171.3-171.3-94.5,0-171.3,76.9-171.3,171.3s76.9,171.3,171.3,171.3A170.577,170.577,0,0,0,344.9,359l90.3,90.3a9.82,9.82,0,0,0,7.1,2.9,10.243,10.243,0,0,0,7.1-2.9,9.959,9.959,0,0,0,0-14.1ZM79.7,231.1c0-83.4,67.9-151.3,151.3-151.3s151.3,67.9,151.3,151.3S314.4,382.4,231,382.4,79.7,314.5,79.7,231.1Z" data-name="&lt;Compound Path&gt;" /></g></svg>
-
-          </SideBarElement>
-          <SideBarElement theme={theme} >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              data-name="Layer 1"
-              viewBox="0 0 512 512"
-              height="23"
-              width="23"
-              stroke={theme === "light" ? "rgb(20,20,20)" : "rgb(240, 240, 240)"}
-              strokeWidth="30"
-            ><g data-name="&lt;Group&gt;"><path d="M359,344.9a170.577,170.577,0,0,0,43.4-113.8c0-94.5-76.9-171.3-171.3-171.3-94.5,0-171.3,76.9-171.3,171.3s76.9,171.3,171.3,171.3A170.577,170.577,0,0,0,344.9,359l90.3,90.3a9.82,9.82,0,0,0,7.1,2.9,10.243,10.243,0,0,0,7.1-2.9,9.959,9.959,0,0,0,0-14.1ZM79.7,231.1c0-83.4,67.9-151.3,151.3-151.3s151.3,67.9,151.3,151.3S314.4,382.4,231,382.4,79.7,314.5,79.7,231.1Z" data-name="&lt;Compound Path&gt;" /></g></svg>
-
+                >Add Friend</motion.p>
+                :
+                <motion.p key="blank"> </motion.p>
+            }
           </SideBarElement>
 
+          {/* //* requests */}
+          <SideBarElement theme={theme} extended={extended} onClick={() => { dispatch(setScreen('requests')) }}>
+            <abbr title="Requests" className="modeAbbr" >
+              <Badge variant="dot" color="primary" invisible={false} >
+                <PersonIcon />
+              </Badge>
+            </abbr>
+            {
+              extended ?
+                <motion.p
+                  key="text"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+
+                >Requests</motion.p>
+                :
+                <motion.p key="blank"> </motion.p>
+            }
+          </SideBarElement>
+
+          {/* //* block list */}
+          <SideBarElement theme={theme} extended={extended} onClick={() => { dispatch(setScreen('blocklist')) }}>
+            <abbr title="Profile" className="modeAbbr" >
+              <BlockIcon />
+            </abbr>
+            {
+              extended ?
+                <motion.p
+                  key="text"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+
+                >Block List</motion.p>
+                :
+                <motion.p key="blank"> </motion.p>
+            }
+          </SideBarElement>
+
+          {/* //* About me */}
+          <SideBarElement theme={theme} extended={extended} onClick={() => { dispatch(setScreen('aboutme')) }}>
+            <abbr title="About Me" className="modeAbbr" >
+              <InfoIcon />
+            </abbr>
+            {
+              extended ?
+                <motion.p
+                  key="text"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+
+                >About Me</motion.p>
+                :
+                <motion.p key="blank"> </motion.p>
+            }
+          </SideBarElement>
         </SideBarElementWrapper>
 
 
         {/* //* log out btn */}
         <SideBarElementWrapper theme={theme} extended={extended} btn="logout" onClick={HelperSignOut} >
-          <SideBarElement theme={theme} ><LogoutIcon /></SideBarElement>
+          <SideBarElement theme={theme} extended={extended} >
+            <abbr title="Log Out" className="modeAbbr" >
+              <LogoutIcon />
+            </abbr>
+            {
+              extended ?
+                <motion.p
+                  key="text"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+
+                >Log Out</motion.p>
+                :
+                <motion.p key="blank"> </motion.p>
+            }</SideBarElement>
         </SideBarElementWrapper>
+
       </Container>
     </Wrapper>
   )

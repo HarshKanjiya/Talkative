@@ -4,11 +4,13 @@ const Chat = require("../model/chatModel");
 
 
 exports.startChatRoom = catchAsyncErrors(async (req, res, next) => {
-    const { memberIds } = req.body;
-    if (memberIds.length === 0) {
+    const { memberIDs } = req.body;
+    if (memberIDs.length === 0) {
         return next(new ErrorHandler("No Users in Room!", 403))
     }
-    const chat = await Chat.findOne({ members: memberIds });
+    console.log('memberIDs :>> ', memberIDs);
+
+    const chat = await Chat.findOne({ members: { $all: memberIDs } });
 
     if (chat) {
         // send chat
@@ -19,15 +21,27 @@ exports.startChatRoom = catchAsyncErrors(async (req, res, next) => {
     } else {
         // create and send it
         chat = await Chat.create({
-            members: memberIds,
+            members: memberIDs,
+        })
+
+        res.status(200).json({
+            success: true,
+            chat: chat
         })
     }
 })
 
 exports.sendMessage = catchAsyncErrors(async (req, res, next) => {
-    const {senderID,message } = req.body;
-    if( !senderID || !message){
-        return next(new ErrorHandler("Something wrong with Id or message",400))
+    const { senderID, message, chatID } = req.body;
+    if (!senderID || !message) {
+        return next(new ErrorHandler("Something wrong with Id or message", 400))
     }
-    
+
+    const exist = await Chat.findById(chatID);
+
+    if (!exist) {
+        return next(new ErrorHandler("Chat room id doesnot exist!", 404));
+    }
+
+
 })

@@ -5,6 +5,7 @@ import SignUpLayout from './signUp';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrorsInUserSlice } from '../../../redux/slices/userSlice.js';
 import { useNavigate } from 'react-router-dom';
+import { PopUp } from '../../components/pop up/PopUp.jsx';
 
 const AuthPage = () => {
   

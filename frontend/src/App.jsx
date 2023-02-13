@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import AuthPage from "./components/pages/Auth/AuthPage"
 import { AnimatePresence } from "framer-motion"
-import { routineThunk } from "./redux/thunk/userThunk"
+import { googleAuthThunk, routineThunk } from "./redux/thunk/userThunk"
 
 
 
@@ -16,9 +16,11 @@ function App() {
   const dispatch = useDispatch();
 
   const { theme } = useSelector(state => state.native)
+  const { isAuthenticated } = useSelector(state => state.user)
 
   useEffect(() => {
     dispatch(routineThunk({}))
+    dispatch(googleAuthThunk({}))
   }, [])
 
   return (

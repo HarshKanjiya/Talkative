@@ -25,6 +25,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         name,
         email: email.toLowerCase(),
         password,
+        authType:"native"
     });
 
     sendToken(user, 201, res);
@@ -183,8 +184,9 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
 })
 
 exports.searchFriend = catchAsyncErrors(async (req, res, next) => {
-    const { userId } = req.body;
+    // const { userId } = req.body;
     const keyword = req.query.keyword;
+    const userID = req.query.user;
 
     // const nameSearch = new ApiFeture(User.find(), query).searchForName();
     // const emailSearch = new ApiFeture(User.find(), query).searchForEmail();
@@ -197,7 +199,7 @@ exports.searchFriend = catchAsyncErrors(async (req, res, next) => {
     let searchResult = [...nameResults, ...emailResults].filter((item, pos, self) => { return self.indexOf(item) == pos })
 
     searchResult = searchResult.filter((i) => {
-        if (i._id !== `new ObjectId("${userId}")` ) {
+        if (i._id !== `new ObjectId("${userID}")` ) {
             console.log('i :>> ', i._id);
             return true
         }

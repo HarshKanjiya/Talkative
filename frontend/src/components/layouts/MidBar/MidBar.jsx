@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { ChangeTheme } from '../../../redux/slices/nativeSlice';
-import { Body, Header, IconWrapper, OnlineFriendsWrapper, Wrapper } from './MidBar.styles';
+import { Body, Header, IconWrapper, OnlineFriendsWrapper, TextInput, Wrapper } from './MidBar.styles';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { AnimatePresence, motion } from "framer-motion"
@@ -55,8 +55,14 @@ const MidBar = () => {
 
         {/* //* online friends */}
         <OnlineFriendsWrapper>
-              <div className="MidBar-OnlineFriendsWrapper-onlines-header-dot"></div>
-            <p className="MidBar-OnlineFriendsWrapper-onlines-header">Online</p>
+          <div className="MidBar-OnlineFriendsWrapper-onlines-header-dot"></div>
+          <p className="MidBar-OnlineFriendsWrapper-onlines-header">Online</p>
+
+          <TextInput
+            placeholder="Search for friend"
+            theme={theme}
+          />
+
         </OnlineFriendsWrapper>
       </Body>
     </Wrapper>

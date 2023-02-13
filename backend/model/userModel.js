@@ -5,9 +5,14 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
 const userSchema = mongoose.Schema({
-  googleID: {
+  specialID: {
     type: String,
     default: ""
+  },
+  authType: {
+    type: String,
+    default: "native",
+    required: true
   },
   name: {
     type: String,
@@ -46,6 +51,23 @@ const userSchema = mongoose.Schema({
   }],
 
   requests: [{
+    name: {
+      type: String,
+      required: true
+    },
+    email: {
+      type: String,
+      required: true
+    },
+    id: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: true
+    }
+  }],
+
+
+  blockList: [{
     name: {
       type: String,
       required: true

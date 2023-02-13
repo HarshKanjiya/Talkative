@@ -1,21 +1,25 @@
 const mongoose = require("mongoose")
 
 const chatSchema = mongoose.Schema({
-    members: [{
-        type: mongoose.Schema.ObjectId,
-        ref: "User",
-        required: true
-    }],
+    members: {
+        type: Array
+    },
     chat: [{
         sender: {
             type: mongoose.Schema.ObjectId,
-            required: true,
         },
         message: {
             type: String,
-            required: true
+        },
+        time:{
+            type: Date,
+            default: Date.now()
         }
     }]
+}
+,
+{
+    timestemps:true
 })
 
 module.exports = mongoose.model("Chat", chatSchema)

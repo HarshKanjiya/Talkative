@@ -1,8 +1,6 @@
 import React from 'react'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { Form, FormFooter, FormHeader, FormWrapper, GoogleSignInBtn, Header, Input, InputField, SubmitButtonWrapper } from './styles'
-import { useNavigate } from "react-router-dom"
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
@@ -18,7 +16,6 @@ import { useDispatch } from 'react-redux';
 import { registerThunk } from '../../../redux/thunk/userThunk';
 
 const SignUpLayout = ({ formSelector, changeForm }) => {
-    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const [name, setName] = useState('')

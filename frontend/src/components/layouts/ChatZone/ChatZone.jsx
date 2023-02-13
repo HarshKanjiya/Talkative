@@ -1,55 +1,65 @@
 import React, { useEffect, useState } from 'react'
-import axios from "axios"
-import { BACKEND_URL } from '../../../config'
-import LoadingLayout from './../loading/LoadingLayout';
+import { useDispatch, useSelector } from 'react-redux'
+import {  ChatFooter, ChatHeader, ChatMessages, ChatWrapper, NoChatSelected_wrapper, Wrapper } from './chatzone.styles'
+import Logo from "../../../assets/talkative_logo_small.png"
+import { AnimatePresence } from 'framer-motion'
+import ScrollToBottom from 'react-scroll-to-bottom';
+
 
 const ChatZone = () => {
-
-  const [user, setUser] = useState(null)
-
-  const onclickevent = () => {
-    window.open(`${BACKEND_URL}/auth/google/callback`, "_self");
-  }
-
-  const logout = () => {
-    window.open(`${BACKEND_URL}/auth/logout`, "_self");
-
-  }
-
-  const getUser = async () => {
-    try {
-      const url = `${BACKEND_URL}/auth/login/success`
-      const { data } = await axios.get(url, { withCredentials: true });
-      console.log('data :>> ', data);
-      setUser(data.user)
-    }
-    catch (err) {
-      console.log(err)
-    }
-  }
-  // useEffect(()=>{
-  //   getUser()
-  // },[])
+  const dispatch = useDispatch()
+  const { theme } = useSelector(state => state.native)
 
   return (
-    <div>
+    <Wrapper theme={theme} >
+      <AnimatePresence>
 
-      {
-        user ?
-          (<>
-            user in
-            <button onClick={logout} > out </button>
-          </>)
-          :
-          (<>
+        {/* <NoChatSelected_wrapper>
+        <img src={Logo} alt="Logo" />
+        <p>select a chat to start Communication</p>
+      </NoChatSelected_wrapper> */}
 
-            <button onClick={onclickevent} > sign in with gggggggg </button>
-            <button onClick={getUser} >gettt </button>
-            <LoadingLayout size='small' />
-          </>)
-      }
+        <ChatWrapper>
+          <ChatHeader theme={theme}>
+            <div className="ChatZone-Header-username">Harsh Kanjiya</div>
+            <div className="ChatZone-Header-usermail">Online</div>
+          </ChatHeader>
 
-    </div>
+          <ChatMessages theme={theme} >
+            <ScrollToBottom
+              initialScrollBehavior='smooth' mode='bottom' >
+
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+              <p>qwqwqw</p>
+            </ScrollToBottom>
+          </ChatMessages>
+
+          <ChatFooter theme={theme}>
+            <input placeholder="qwqw" />
+            <button>send</button>
+          </ChatFooter>
+        </ChatWrapper>
+
+      </AnimatePresence>
+    </Wrapper>
   )
 }
 

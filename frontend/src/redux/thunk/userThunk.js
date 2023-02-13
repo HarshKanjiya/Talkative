@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { apiHeaderConfig, logInAPI, logoutAPI, registerAPI, routineAPI } from "../../config";
+import { apiHeaderConfig, BACKEND_URL, googleAuthAPI, logInAPI, logoutAPI, registerAPI, routineAPI } from "../../config";
 
 
 export const logInThunk = createAsyncThunk(
@@ -8,7 +8,7 @@ export const logInThunk = createAsyncThunk(
     async ({ email, password }, { rejectWithValue }) => {
         try {
             const { data } = await axios.post(logInAPI, { email, password }, apiHeaderConfig, { withCredentials: true })
-            console.log('data :>> ', data);
+            // console.log('data :>> ', data);
             return data.user
         }
         catch (err) {
@@ -21,7 +21,7 @@ export const registerThunk = createAsyncThunk(
     async ({ name, email, password }, { rejectWithValue }) => {
         try {
             const { data } = await axios.post(registerAPI, { name, email, password }, apiHeaderConfig)
-            console.log('data.user :>> ', data.user);
+            // console.log('data.user :>> ', data.user);
             return data.user
         }
         catch (err) {
@@ -34,7 +34,6 @@ export const logOutThunk = createAsyncThunk(
     async ({ }, { rejectWithValue }) => {
         try {
             const { data } = await axios.get(logoutAPI, { withCredentials: true })
-            console.log('hi Harxh!!!', data);
             return data
         }
         catch (err) {
@@ -47,12 +46,28 @@ export const routineThunk = createAsyncThunk(
     async ({ }, { rejectWithValue }) => {
         try {
             const { data } = await axios.get(routineAPI, { withCredentials: true })
-            console.log('user :>> ', data.user);
+            console.log('rtn :>> ', data.user);
             return data.user
         }
         catch (err) {
-            console.log('err :>> ', err);
+            console.log('rtn ', err);
             return rejectWithValue(err.response.data.message)
         }
+    }
+)
+
+// *google auths
+export const googleAuthThunk = createAsyncThunk(
+'user/googleAuth',
+async ({}, { rejectWithValue }) => {
+    try {
+        const { data } = await axios.get( `/auth/login/success ` ,{ withCredentials:true })
+        console.log('ggl!!!', data);
+        return data.user
+    }
+    catch (err) {
+        console.log('ggl !!!', err);
+        return rejectWithValue(err.response.data.message)
+    }
     }
 )

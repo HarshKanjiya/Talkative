@@ -1,18 +1,35 @@
 const express = require('express');
 const passport = require('passport');
+const sendToken = require('../utils/JWTtoken');
+const jwt = require("jsonwebtoken");
+
 
 const router = express.Router()
 
 
 router.get('/login/success', (req, res) => {
     if (req.user) {
-        res.status(200).json({
+        const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET_KEY, {
+            expiresIn: process.env.JWT_EXPIRE,
+        })
+
+        const options = {
+            maxAge: new Date(
+                Date.now() + 432000000
+            ),
+            httpOnly: true,
+            secure: true,
+            sameSite: "none"
+        };
+
+        return res.status(201).cookie("token", token, options).json({
             success: true,
-            user: req.user
+            user: req.user,
+            token,
         })
     }
     else {
-        res.status(401).json({
+        return res.status(401).json({
             success: false,
             message: 'Not authorized!'
         })

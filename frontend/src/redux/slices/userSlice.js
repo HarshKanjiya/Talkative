@@ -1,6 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit"
-import { logInThunk, logOutThunk, registerThunk } from "../thunk/userThunk"
+import { googleAuthThunk, logInThunk, logOutThunk, registerThunk } from "../thunk/userThunk"
 import { routineThunk } from './../thunk/userThunk';
 
 const userSlice = createSlice({
@@ -77,7 +77,19 @@ const userSlice = createSlice({
         });
         builder.addCase(logOutThunk.rejected, (state, { payload }) => {
             state.loading = false;
-            state.error = action.payload;
+            state.error = payload;
+        });
+
+        //* google auth
+        builder.addCase(googleAuthThunk.pending, (state, { payload }) => {
+        });
+        builder.addCase(googleAuthThunk.fulfilled, (state, { payload }) => {
+            state.isAuthenticated = true;
+            state.userData = payload;
+        });
+        builder.addCase(googleAuthThunk.rejected, (state, { payload }) => {
+            state.error = payload;
+            state.isAuthenticated = false;
         });
 
 

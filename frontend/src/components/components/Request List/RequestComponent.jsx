@@ -3,13 +3,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Wrapper } from '../search friend/userComponent'
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import { friendRequestThunk } from '../../../redux/thunk/newFriendThunk';
 
 const RequestComponent = ({ user, index }) => {
     const dispatch = useDispatch()
     const { theme } = useSelector(state => state.native)
 
-    const HelperClick1 = () => { }
-    const HelperClick2 = () => { }
+    const HelperClick1 = () => {
+        dispatch(friendRequestThunk({ friendID: user.id, accept: true }))
+    }
+    const HelperClick2 = () => {
+        dispatch(friendRequestThunk({ friendID: user.id, accept: false }))
+    }
 
     return (
         <Wrapper

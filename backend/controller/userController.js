@@ -227,7 +227,7 @@ exports.addFriend = catchAsyncErrors(async (req, res, next) => {
             existance = true
         }
     })
-    console.log('existance :>> ', existance);
+    // console.log('existance :>> ', existance);
 
     // * if reqest is alredy sent
     if (existance) return next(new ErrorHandler("Request Already Sent!!", 400));
@@ -255,4 +255,30 @@ exports.addFriend = catchAsyncErrors(async (req, res, next) => {
     await user.save()
 
     res.status(200).json({ success: true, user })
+})
+
+exports.requestJudgment = catchAsyncErrors(async (req, res, next) => {
+    const FriendID = req.params.id;
+    const acceptance = eval(req.query.accept);
+
+    if (FriendID.trim() === "") return next(new ErrorHandler("No Friend Selected!", 400));
+    if (typeof acceptance !== "boolean") return next(new ErrorHandler("None choice Selected!", 400));
+
+    const user = await User.findById(req.user.id);
+    const friend = await User.findById(FriendID);
+
+    if (acceptance) {
+        //* push cross users in both documents
+
+        //* remove cross requests from both requests and request Sent
+
+    } else {
+        //* remove cross requests from both requests and request Sent
+
+
+    }
+
+    res.status(200).json({
+        success: true
+    })
 })

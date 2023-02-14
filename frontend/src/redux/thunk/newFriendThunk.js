@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { addFriendAPI, searchFriendAPI } from "../../config";
+import { addFriendAPI, friendRequestAPI, searchFriendAPI } from "../../config";
 import axios from "axios"
 
 export const searchFriendThunk = createAsyncThunk(
@@ -24,6 +24,21 @@ export const addFriendThunk = createAsyncThunk(
             return data.user
         }
         catch (err) {
+            return rejectWithValue(err.response.data.message)
+        }
+    }
+)
+
+export const friendRequestThunk = createAsyncThunk(
+    'user/',
+    async ({ friendID, accept }, { rejectWithValue }) => {
+        try {
+            const { data } = await axios.get(`${friendRequestAPI}/${friendID}?accept=${accept}`)
+            console.log('hi Harxh!!!', data);
+            return data
+        }
+        catch (err) {
+            console.log('object :>> ', err.response.data.message);
             return rejectWithValue(err.response.data.message)
         }
     }

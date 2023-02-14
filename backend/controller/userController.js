@@ -33,7 +33,8 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
 // login user
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
-    const { email, password } = req.body;
+    var { email, password } = req.body;
+    email = email.toLowerCase();
     if (!email || !password) {
         return next(new ErrorHandler("Please Enter Email and Password", 400));
     }
@@ -226,6 +227,7 @@ exports.addFriend = catchAsyncErrors(async (req, res, next) => {
             existance = true
         }
     })
+    console.log('existance :>> ', existance);
 
     // * if reqest is alredy sent
     if (existance) return next(new ErrorHandler("Request Already Sent!!", 400));

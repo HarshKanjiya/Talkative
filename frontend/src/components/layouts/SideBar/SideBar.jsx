@@ -140,7 +140,7 @@ const SideBar = () => {
           {/* //* requests */}
           <SideBarElement theme={theme} extended={extended} onClick={() => { dispatch(setScreen('requests')) }}>
             <abbr title="Requests" className="modeAbbr" >
-              <Badge variant="dot" color="primary" invisible={false} >
+              <Badge variant="dot" color="primary" invisible={userData && userData.requests.length < 1 } >
                 <PersonIcon />
               </Badge>
             </abbr>

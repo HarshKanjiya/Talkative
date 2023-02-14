@@ -21,7 +21,7 @@ export const addFriendThunk = createAsyncThunk(
         try {
             const { data } = await axios.get(`${addFriendAPI}/${friendID}`)
             console.log('hi Harxh!!!', data);
-            return data
+            return data.user
         }
         catch (err) {
             return rejectWithValue(err.response.data.message)

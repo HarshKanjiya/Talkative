@@ -14,7 +14,7 @@ import { LoadingWrapper, ResultWrapper, TextInput, Wrapper } from './newfriend.s
 const NewFriend = () => {
   const dispatch = useDispatch()
   const { theme, searchResults, nativeLoading, nativeError } = useSelector(state => state.native)
-  const { userData } = useSelector(state => state.user)
+  const { userData, error, loading } = useSelector(state => state.user)
 
   const [inputString, setInputString] = useState('')
 
@@ -30,80 +30,74 @@ const NewFriend = () => {
     dispatch(searchFriendThunk({ keyword: inputString }))
   }
 
-  return (
-    <Wrapper theme={theme}>
-      <ScreenHeader screen="new Friend" theme={theme} />
+  if (userData) {
+    return (
+      <Wrapper theme={theme}>
+        <ScreenHeader screen="new Friend" theme={theme} />
 
-      <TextInput
-        placeholder="Search for friend's email or username"
-        theme={theme}
-        onKeyUp={(e) => { HelperInputEnter(e) }}
-        value={inputString}
-        onChange={(e) => {
-          setInputString(e.target.value)
-        }}
-      />
-
-      {
-        nativeLoading ? (
-          <LoadingWrapper
-            key="loadingScreen"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <CircularProgress sx={{ color: theme === "light" ? "#252525" : "#f5f5f5" }} />
-          </LoadingWrapper>
-        ) : (
-          <ResultWrapper
-            key="loadingScreen"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            {
-              searchResults.map((user, index) => {
-
-                var type = "Add Friend";
-                var buttonBG = "#2bb594";
-
-                userData.requestSent.map((obj) => {
-                  if (obj.id === user._id) {
-                    type = 'Sent!'
-                    buttonBG = "#2AF598"
+        <TextInput
+          placeholder="Search for friend's email or username"
+          theme={theme}
+          onKeyUp={(e) => { HelperInputEnter(e) }}
+          value={inputString}
+          onChange={(e) => {
+            setInputString(e.target.value)
+          }}
+        />
+        {
+          nativeLoading ? (
+            <LoadingWrapper
+              key="loadingScreen"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <CircularProgress sx={{ color: theme === "light" ? "#252525" : "#f5f5f5" }} />
+            </LoadingWrapper>
+          ) : (
+            <ResultWrapper
+              key="resultScreen"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              {
+                searchResults.map((user, index) => {
+                  var type = "Add Friend";
+                  var buttonBG = "#00c898";
+                  userData.requestSent.map((obj) => {
+                    if (obj.id === user._id) {
+                      type = 'Sent!'
+                      buttonBG = "#2AF598"
+                    }
+                  })
+                  if (type === 'Add Friend') {
+                    userData.friends.map((obj) => {
+                      if (obj.id === user._id) {
+                        type = 'friends';
+                        buttonBG = "#52ACFF";
+                      }
+                    })
                   }
+                  if (type === 'Add Friend') {
+                    userData.blockList.map((obj) => {
+                      if (obj.id === user._id) {
+                        type = 'blocked!';
+                        buttonBG = "#f82929";
+                      }
+                    })
+                  }
+                  return (
+                    <UserComponent user={user} key={index} type={type} buttonBG={buttonBG} index={index} />
+                  )
                 })
-                if (type === 'Add Friend') {
-                  userData.friends.map((obj) => {
-                    if (obj.id === user._id) {
-                      type = 'friends';
-                      buttonBG = "#52ACFF";
-
-                    }
-                  })
-                }
-                if (type === 'Add Friend') {
-                  userData.blockList.map((obj) => {
-                    if (obj.id === user._id) {
-                      type = 'blocked!';
-                      buttonBG = "#ff5c5c";
-
-                    }
-                  })
-                }
-
-
-                return (
-                  <UserComponent user={user} key={index} type={type} buttonBG={buttonBG} index={index} />
-                )
-              })
-            }
-          </ResultWrapper>
-        )
-      }
-
-    </Wrapper>
-  )
+              }
+            </ResultWrapper>
+          )
+        }
+      </Wrapper>
+    )
+  }
 }
 
 export default NewFriend

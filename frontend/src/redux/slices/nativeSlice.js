@@ -34,17 +34,6 @@ const nativeSlice = createSlice({
             state.nativeLoading = false
             state.nativeError = payload
         });
-
-        builder.addCase(addFriendThunk.pending, (state, { payload }) => {
-            state.nativeLoading = true
-        });
-        builder.addCase(addFriendThunk.fulfilled, (state, { payload }) => {
-            state.nativeLoading = false
-        });
-        builder.addCase(addFriendThunk.rejected, (state, { payload }) => {
-            state.nativeLoading = false
-        });
-
     }
 })
 

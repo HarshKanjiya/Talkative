@@ -1,5 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit"
+import { addFriendThunk } from "../thunk/newFriendThunk";
 import { googleAuthThunk, logInThunk, logOutThunk, registerThunk } from "../thunk/userThunk"
 import { routineThunk } from './../thunk/userThunk';
 
@@ -90,6 +91,19 @@ const userSlice = createSlice({
         builder.addCase(logOutThunk.rejected, (state, { payload }) => {
             state.loading = false;
             state.error = payload;
+        });
+
+        //* add friend
+        builder.addCase(addFriendThunk.pending, (state, { payload }) => {
+            state.loading = true
+        });
+        builder.addCase(addFriendThunk.fulfilled, (state, { payload }) => {
+            state.loading = false
+            state.userData = payload
+        });
+        builder.addCase(addFriendThunk.rejected, (state, { payload }) => {
+            state.loading = false
+            state.error = payload
         });
     }
 })

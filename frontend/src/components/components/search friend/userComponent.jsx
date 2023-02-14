@@ -28,7 +28,7 @@ const UserComponent = ({ user, type, buttonBG, index }) => {
                 <p className='searchfriend-user-left-email'>{user.email}</p>
             </div>
             <div className='searchfriend-user-right' >
-                <button onClick={HelperClick} ><p>{type}</p></button>
+                <button className='searchfriend-user-sendReqBtn' onClick={HelperClick} ><p>{type}</p></button>
             </div>
         </Wrapper>
     )
@@ -38,6 +38,7 @@ export default UserComponent
 
 export const Wrapper = styled(motion.div)`
 width: 98%;
+cursor: default;
 padding: 1rem;
 margin: 0.5rem 0;
 /* background-color: ${props => (props.theme === "light" ? "rgba(0,0,0,0)" : "rgba(255,255,255,0.1)")} ; */
@@ -59,7 +60,15 @@ border:${props => (props.theme === "light" ? "2px solid rgba(0,0,0,0.05)" : "2px
     }
 }
 .searchfriend-user-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:1rem;
     button{
+        cursor: pointer;
+        transition: 300ms;
+    }
+    .searchfriend-user-sendReqBtn{
         padding: 0.5rem 1rem;
         display: flex;
         justify-content: center;
@@ -71,5 +80,36 @@ border:${props => (props.theme === "light" ? "2px solid rgba(0,0,0,0.05)" : "2px
         outline: none;
         background-color: ${props => (props.buttonBG)} ;
     }
+    .requests-btn{
+        height: 2.8rem;
+        width: 2.8rem;
+        border-radius: 50%;
+        border:none;
+        outline:none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid;
+    }
+    .requests-accept{
+        background-color: #2AF598;
+        color:white;
+        border-color: #2AF598;
+        
+        &:hover{
+            background-color: #29f87a;
+        }
+    }
+    .requests-reject{
+        background-color: transparent;
+        color:#f82929;
+        border-color: #f82929;
+        &:hover{
+            background-color: #f82929;
+            color:#fff;
+        }
+
+    }
+
 }
 `

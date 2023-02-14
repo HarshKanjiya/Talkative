@@ -9,6 +9,7 @@ height: calc(100vh - 1rem);
 background-color: ${props => (props.extended ? "transparent" : (props.theme === "light" ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.03)"))};
 
 color: ${props => (props.theme === "light" ? "rgb(20,20,20)" : "rgb(240, 240, 240)")};
+box-shadow: 0 0 11px rgba(0,0,0,0.13);
 
 width: ${props => (props.extended ? "200px" : "60px")} ;
 overflow: hidden;

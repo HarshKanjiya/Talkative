@@ -46,11 +46,11 @@ export const routineThunk = createAsyncThunk(
     async ({ }, { rejectWithValue }) => {
         try {
             const { data } = await axios.get(routineAPI, { withCredentials: true })
-            console.log('rtn :>> ', data.user);
+            // console.log('rtn :>> ', data.user);
             return data.user
         }
         catch (err) {
-            console.log('rtn ', err);
+            // console.log('rtn ', err);
             return rejectWithValue(err.response.data.message)
         }
     }
@@ -62,11 +62,11 @@ export const googleAuthThunk = createAsyncThunk(
 async ({}, { rejectWithValue }) => {
     try {
         const { data } = await axios.get( `/auth/login/success ` ,{ withCredentials:true })
-        console.log('ggl!!!', data);
+        // console.log('ggl!!!', data);
         return data.user
     }
     catch (err) {
-        console.log('ggl !!!', err);
+        // console.log('ggl !!!', err);
         return rejectWithValue(err.response.data.message)
     }
     }

@@ -62,7 +62,7 @@ position: relative;
 overflow-y: scroll;
 padding: 1rem;
 overflow-x: hidden;
-background-image: ${props => (props.theme === "light" ? "linear-gradient(#A7ACD9,#9E8FB2)" : "linear-gradient(#0D324D,#7F5A83)")} ;
+background-image: ${props => (props.theme === "light" ? "linear-gradient(#FFDEE9,#B5FFFC)" : "linear-gradient(#0D324D,#7F5A83)")} ;
 
 `
 

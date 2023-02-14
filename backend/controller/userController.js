@@ -25,7 +25,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         name,
         email: email.toLowerCase(),
         password,
-        authType:"native"
+        authType: "native"
     });
 
     sendToken(user, 201, res);
@@ -184,9 +184,8 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
 })
 
 exports.searchFriend = catchAsyncErrors(async (req, res, next) => {
-    // const { userId } = req.body;
     const keyword = req.query.keyword;
-    const userID = req.query.user;
+    const userID = req.user.id;
 
     // const nameSearch = new ApiFeture(User.find(), query).searchForName();
     // const emailSearch = new ApiFeture(User.find(), query).searchForEmail();
@@ -196,11 +195,13 @@ exports.searchFriend = catchAsyncErrors(async (req, res, next) => {
     const nameResults = await User.find({ name: { '$regex': keyword, '$options': 'i' } })
     const emailResults = await User.find({ email: { '$regex': keyword, '$options': 'i' } })
 
-    let searchResult = [...nameResults, ...emailResults].filter((item, pos, self) => { return self.indexOf(item) == pos })
+    var seen = {}
+    let searchResult = [...nameResults, ...emailResults].filter((item) => {
+        return seen.hasOwnProperty(item.id) ? false : (seen[item.id] = true)
+    })
 
     searchResult = searchResult.filter((i) => {
-        if (i._id !== `new ObjectId("${userID}")` ) {
-            console.log('i :>> ', i._id);
+        if (i.id !== userID) {
             return true
         }
     })
@@ -213,5 +214,32 @@ exports.searchFriend = catchAsyncErrors(async (req, res, next) => {
 
 })
 exports.addFriend = catchAsyncErrors(async (req, res, next) => {
+    const FriendID = req.params.id;
 
+    const Friend = await User.findById(FriendID);
+    if (!Friend) return next(new ErrorHandler("No Friend Selected!", 400));
+
+
+    let existance = false
+    Friend.requests.map((obj) => {
+        if (obj.email == req.user.email) {
+            existance = true
+        }
+    })
+
+    // * if reqest is alredy sent
+    if (existance) return next(new ErrorHandler("Request Already Sent!!", 400));
+
+    // * making of new request
+    var newRequests = Friend.requests;
+    newRequests.push({
+        name: req.user.name,
+        email: req.user.email,
+        id: req.user.id
+    })
+
+    Friend.requests = newRequests
+    await Friend.save()
+
+    res.status(200).json({ success: true, Friend })
 })

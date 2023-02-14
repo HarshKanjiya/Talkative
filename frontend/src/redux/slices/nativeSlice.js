@@ -1,6 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit"
-import { searchFriendThunk } from "../thunk/newFriendThunk";
+import { addFriendThunk, searchFriendThunk } from "../thunk/newFriendThunk";
 
 const nativeSlice = createSlice({
     name: "nativeSlice",
@@ -34,8 +34,19 @@ const nativeSlice = createSlice({
             state.nativeLoading = false
             state.nativeError = payload
         });
+
+        builder.addCase(addFriendThunk.pending, (state, { payload }) => {
+            state.nativeLoading = true
+        });
+        builder.addCase(addFriendThunk.fulfilled, (state, { payload }) => {
+            state.nativeLoading = false
+        });
+        builder.addCase(addFriendThunk.rejected, (state, { payload }) => {
+            state.nativeLoading = false
+        });
+
     }
 })
 
-export const { ChangeTheme, clearNativeErrors,setScreen } = nativeSlice.actions
+export const { ChangeTheme, clearNativeErrors, setScreen } = nativeSlice.actions
 export default nativeSlice.reducer

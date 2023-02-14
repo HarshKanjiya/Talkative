@@ -27,7 +27,7 @@ gap:1rem;
 border-radius: 9px;
 transition: 300ms;
 overflow: hidden;
-background-image: ${props => (props.theme === "light" ? "linear-gradient(#A7ACD9,#9E8FB2)" : "linear-gradient(#0D324D,#7F5A83)")} ;
+background-image: ${props => (props.theme === "light" ? "linear-gradient(#FFDEE9,#B5FFFC)" : "linear-gradient(#0D324D,#7F5A83)")} ;
 `
 export const SideBarElementWrapper = styled.div`
 display: flex;
@@ -84,7 +84,7 @@ p{
 
 &:hover{
     abbr{
-        background-color: ${props => (props.extended === true ? "" : props.theme === "light" ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)")} ;
+        background-color: ${props => (props.extended === true ? "" : props.theme === "light" ? "rgba(255,255,255,1)" : "rgba(0,0,0,0.3)")} ;
 
     }
 }

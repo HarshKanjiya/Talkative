@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { TextField } from "@mui/material"
+import { motion } from "framer-motion"
 
 export const Wrapper = styled.div`
 width: 100%;
@@ -28,9 +28,24 @@ margin: 0.5rem 0;
 border-radius: 4px 4px 2px 2px;
 border-bottom: ${props => (props.theme === "light" ? "2px solid rgba(0,0,0,0.2)" : "2px solid rgba(255,255,255,0.4)")};
 transition: 300ms;
-&:focus, &:hover {
-    border-bottom: ${props => (props.theme === "light" ? "2px solid rgba(0,0,0,0.5)" : "2px solid rgba(255,255,255,0.5)")};
+&:focus, &:hover{
+    border-bottom: ${props => (props.theme === "light" ? "2px solid rgba(0,0,0,0.9)" : "2px solid rgba(255,255,255,0.9)")};
 }
-
 ;
+`
+
+export const LoadingWrapper = styled(motion.div)`
+width: 100%;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+`
+export const ResultWrapper = styled(motion.div)`
+width: 100%;
+height: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+overflow: auto;
 `

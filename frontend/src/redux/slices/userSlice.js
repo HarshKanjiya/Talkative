@@ -9,7 +9,7 @@ const userSlice = createSlice({
         userData: null,
         isAuthenticated: undefined,
         loading: false,
-        error: false
+        error: null
     },
     reducers: {
         clearErrorsInUserSlice: (state) => {
@@ -30,13 +30,26 @@ const userSlice = createSlice({
         builder.addCase(routineThunk.rejected, (state, { payload }) => {
             state.loading = false;
             state.isAuthenticated = false;
-            state.error = payload;
         });
+
+        //* google auth
+        builder.addCase(googleAuthThunk.pending, (state, { payload }) => {
+            state.loading = true;
+        });
+        builder.addCase(googleAuthThunk.fulfilled, (state, { payload }) => {
+            state.isAuthenticated = true;
+            state.userData = payload;
+        });
+        builder.addCase(googleAuthThunk.rejected, (state, { payload }) => {
+            state.loading = false;
+            state.isAuthenticated = state.isAuthenticated === true ? true : false;
+
+        });
+
 
         //* login
         builder.addCase(logInThunk.pending, (state, { payload }) => {
             state.loading = true;
-            state.isAuthenticated = false
         });
         builder.addCase(logInThunk.fulfilled, (state, { payload }) => {
             state.loading = false;
@@ -44,10 +57,9 @@ const userSlice = createSlice({
             state.userData = payload
         });
         builder.addCase(logInThunk.rejected, (state, { payload }) => {
-            state.isAuthenticated = false;
             state.loading = false;
+            state.isAuthenticated = false;
             state.error = payload;
-            state.userData = null;
         });
         //* register
         builder.addCase(registerThunk.pending, (state, { payload }) => {
@@ -79,20 +91,6 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = payload;
         });
-
-        //* google auth
-        builder.addCase(googleAuthThunk.pending, (state, { payload }) => {
-        });
-        builder.addCase(googleAuthThunk.fulfilled, (state, { payload }) => {
-            state.isAuthenticated = true;
-            state.userData = payload;
-        });
-        builder.addCase(googleAuthThunk.rejected, (state, { payload }) => {
-            state.error = payload;
-            state.isAuthenticated = false;
-        });
-
-
     }
 })
 

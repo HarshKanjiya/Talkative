@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, loginUser, logoutUser, forgotPassword, resetPassword, userDetails, updatePassword, updateProfile, searchFriend } = require('../controller/userController');
+const { registerUser, loginUser, logoutUser, forgotPassword, resetPassword, userDetails, updatePassword, updateProfile, searchFriend, addFriend } = require('../controller/userController');
 const { forRoutineCheck, isAuthenticatedUser } = require('../middleware/auth');
 
 const router = express.Router()
@@ -17,5 +17,6 @@ router.route("/profile/password/update").put(isAuthenticatedUser, updatePassword
 router.route("/profile/details/update").put(isAuthenticatedUser, updateProfile);
 
 router.route("/friend/search").get(isAuthenticatedUser, searchFriend)
+router.route("/friend/add/:id").get(isAuthenticatedUser, addFriend)
 
 module.exports = router

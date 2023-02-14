@@ -89,7 +89,7 @@ border-bottom: ${props => (props.theme === "light" ? "2px solid rgba(0,0,0,0.2)"
 
 transition: 300ms;
 &:focus, &:hover{
-    border-bottom: ${props => (props.theme === "light" ? "2px solid rgba(0,0,0,0.5)" : "2px solid rgba(255,255,255,0.5)")};
+    border-bottom: ${props => (props.theme === "light" ? "2px solid rgba(0,0,0,0.9)" : "2px solid rgba(255,255,255,0.9)")};
 }
 
 ;

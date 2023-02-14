@@ -20,6 +20,7 @@ export const routineAPI = "/api/v1/user/routinecheck"
 
 
 export const searchFriendAPI = "/api/v1/friend/search"
+export const addFriendAPI = "/api/v1/friend/add"
 
 
 export const getChatAPI = "/api/v1/chat/getchat"

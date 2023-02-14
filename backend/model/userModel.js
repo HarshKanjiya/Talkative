@@ -65,7 +65,21 @@ const userSchema = mongoose.Schema({
       required: true
     }
   }],
-
+  requestSent: [{
+    name: {
+      type: String,
+      required: true
+    },
+    email: {
+      type: String,
+      required: true
+    },
+    id: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: true
+    }
+  }],
 
   blockList: [{
     name: {

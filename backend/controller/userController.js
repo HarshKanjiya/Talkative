@@ -241,5 +241,16 @@ exports.addFriend = catchAsyncErrors(async (req, res, next) => {
     Friend.requests = newRequests
     await Friend.save()
 
-    res.status(200).json({ success: true, Friend })
+    const user = await User.findById(req.user.id)
+
+    var newSentRequests = user.requestSent
+    newSentRequests.push({
+        name: Friend.name,
+        email: Friend.email,
+        id: Friend.id
+    })
+    user.requestSent = newSentRequests
+    await user.save()
+
+    res.status(200).json({ success: true, user })
 })

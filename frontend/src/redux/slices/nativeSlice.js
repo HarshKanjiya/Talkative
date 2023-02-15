@@ -1,5 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit"
+import { getChatThunk } from "../thunk/chatThunk";
 import { addFriendThunk, searchFriendThunk } from "../thunk/newFriendThunk";
 
 const nativeSlice = createSlice({
@@ -9,7 +10,8 @@ const nativeSlice = createSlice({
         searchResults: [],
         nativeLoading: false,
         nativeError: null,
-        screen: "chats"
+        screen: "chats",
+        currentChat: null
     },
     reducers: {
         ChangeTheme: (state) => {
@@ -20,7 +22,8 @@ const nativeSlice = createSlice({
         },
         clearNativeErrors: (state) => {
             state.nativeError = null
-        }
+        },
+
     },
     extraReducers: (builder) => {
         builder.addCase(searchFriendThunk.pending, (state, { payload }) => {
@@ -31,6 +34,19 @@ const nativeSlice = createSlice({
             state.searchResults = payload
         });
         builder.addCase(searchFriendThunk.rejected, (state, { payload }) => {
+            state.nativeLoading = false
+            state.nativeError = payload
+        });
+
+        //* chat loader
+        builder.addCase(getChatThunk.pending, (state, { payload }) => {
+            state.nativeLoading = true
+        });
+        builder.addCase(getChatThunk.fulfilled, (state, { payload }) => {
+            state.nativeLoading = false
+            state.currentChat = payload
+        });
+        builder.addCase(getChatThunk.rejected, (state, { payload }) => {
             state.nativeLoading = false
             state.nativeError = payload
         });

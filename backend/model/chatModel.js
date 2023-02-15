@@ -5,21 +5,41 @@ const chatSchema = mongoose.Schema({
         type: Array
     },
     chat: [{
-        sender: {
+        senderID: {
             type: mongoose.Schema.ObjectId,
+            ref: "User",
+        },
+        type: {
+            type: String,
+            default: "text"
         },
         message: {
             type: String,
         },
-        time:{
+        time: {
+            type: Date,
+            default: Date.now()
+        }
+    }],
+    lastMessage: [{
+        senderID: {
+            type: mongoose.Schema.ObjectId,
+            ref: "User",
+        },
+        type: {
+            type: String,
+            default: "text"
+        },
+        message: {
+            type: String,
+        },
+        time: {
             type: Date,
             default: Date.now()
         }
     }]
 }
-,
-{
-    timestemps:true
-})
+    ,
+    { timestamps: true })
 
 module.exports = mongoose.model("Chat", chatSchema)

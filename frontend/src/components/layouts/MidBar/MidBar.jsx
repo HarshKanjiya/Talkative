@@ -5,14 +5,29 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { AnimatePresence, motion } from "framer-motion"
 import FriendsList from "../Friends List/FriendsList";
+import { useEffect, useState } from "react";
 
 const MidBar = () => {
   const dispatch = useDispatch()
   const { theme } = useSelector(state => state.native)
   const { userData } = useSelector(state => state.user)
 
+  const [filterChats, setFilterChats] = useState([])
+
+  useEffect(() => {
+    if (userData) setFilterChats(userData.friends)
+  }, [userData])
+
   const HelperBgRipple = (event) => {
     dispatch(ChangeTheme())
+  }
+
+  const HelperFilter = (string) => {
+    if (string.trim() === '') {
+      return setFilterChats(userData.friends)
+    }
+    const filtered = userData.friends.filter((obj) => obj.name.toLowerCase().includes(string.toLowerCase()))
+    setFilterChats(filtered)
   }
 
   return (
@@ -62,11 +77,10 @@ const MidBar = () => {
           <TextInput
             placeholder="Search for friend"
             theme={theme}
+            onChange={(e) => { HelperFilter(e.target.value) }}
           />
 
-          {
-            userData && (<FriendsList friendList={userData.friends} />)
-          }
+          <FriendsList friendList={filterChats} />
 
         </OnlineFriendsWrapper>
       </Body>

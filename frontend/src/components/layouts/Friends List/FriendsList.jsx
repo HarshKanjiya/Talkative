@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
+import { AnimatePresence } from 'framer-motion'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import FriendsComponent from '../../components/Friends list Home page/FriendsComponent'
 
 
@@ -9,14 +10,15 @@ import FriendsComponent from '../../components/Friends list Home page/FriendsCom
 //* works like wrapper 
 
 const FriendsList = ({ friendList }) => {
-    const dispatch = useDispatch()
     const { theme } = useSelector(state => state.native)
     return (
         <Wrapper>
-            {
-                friendList.map((friend, index) =>
-                    <FriendsComponent name={friend.name} id={friend.id} key={index} theme={theme} />)
-            }
+            <AnimatePresence mode='sync' >
+                {
+                    friendList.map((friend, index) =>
+                        <FriendsComponent name={friend.name} id={friend.id} key={index} index={index} theme={theme} />)
+                }
+            </AnimatePresence>
         </Wrapper>
     )
 }
@@ -26,4 +28,5 @@ export default FriendsList
 const Wrapper = styled.div`
 height: 100%;
 overflow-y: auto;
+overflow-x: hidden;
 `

@@ -1,14 +1,22 @@
 import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { getChatThunk } from '../../../redux/thunk/chatThunk';
 
-const FriendsComponent = ({ name, id, theme }) => {
+const FriendsComponent = ({ name, id, theme, index }) => {
     const dispatch = useDispatch()
     const lastMsg = "hiFriendsComponent-lastmsg"
 
     return (
-        <Wrapper theme={theme} onClick={() => { dispatch(getChatThunk({ friendID: id })) }} >
+        <Wrapper
+            // layout
+            key={id}
+            initial={{ opacity: 0, x: "-20%" }}
+            animate={{ opacity: 1, x: "0%" }}
+            exit={{ opacity: 0, x: "20%" }}
+            transition={{ delay: 0.2 * index, type: "tween" }}
+            theme={theme} onClick={() => { dispatch(getChatThunk({ friendID: id, name: name })) }} >
 
             {name}
             <div className='FriendsComponent-lastmsg-wrapper' >
@@ -21,7 +29,7 @@ const FriendsComponent = ({ name, id, theme }) => {
 }
 
 export default FriendsComponent
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
 cursor:pointer;
 width: 100%;
 padding: 0.35rem 0.8rem;

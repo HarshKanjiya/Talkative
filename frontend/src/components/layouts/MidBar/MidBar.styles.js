@@ -51,9 +51,6 @@ box-shadow: 0 0 11px rgba(0,0,0,0.1);
 export const OnlineFriendsWrapper = styled.div`
 width: 100%;
 
-.MidBar-OnlineFriendsWrapper-onlines-header-dot{
-    
-}
 
 .MidBar-OnlineFriendsWrapper-onlines-header{
     font-size: 1.3rem;
@@ -61,17 +58,6 @@ width: 100%;
     opacity: 0.8;
     position: relative;
     width: max-content;
-}
-.MidBar-OnlineFriendsWrapper-onlines-header::after 
-{
-    content:' ';
-    top: 3px;
-    right: -10px;
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background-color: #09ff0d;
 }
 
 `

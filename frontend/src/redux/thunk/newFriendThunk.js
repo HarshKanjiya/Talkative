@@ -35,7 +35,7 @@ export const friendRequestThunk = createAsyncThunk(
         try {
             const { data } = await axios.get(`${friendRequestAPI}/${friendID}?accept=${accept}`)
             console.log('hi Harxh!!!', data);
-            return data
+            return data.user
         }
         catch (err) {
             console.log('object :>> ', err.response.data.message);

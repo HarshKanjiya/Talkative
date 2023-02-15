@@ -267,18 +267,77 @@ exports.requestJudgment = catchAsyncErrors(async (req, res, next) => {
     const user = await User.findById(req.user.id);
     const friend = await User.findById(FriendID);
 
+    if (!user) return next(new ErrorHandler("User not found!", 400));
+    if (!friend) return next(new ErrorHandler("Friend Account not Found!", 400));
+
     if (acceptance) {
-        //* push cross users in both documents
 
-        //* remove cross requests from both requests and request Sent
+        // ? for user 
+        let existance = false
+        user.friends.map((obj) => {
+            if (obj.email == friend.email) {
+                existance = true
+            }
+        })
+        //^ if already friends
+        if (existance) return next(new ErrorHandler("Already Friends!!", 400));
 
-    } else {
-        //* remove cross requests from both requests and request Sent
+        //^ push cross users in both documents
+        var newUserFriendList = user.friends;
+        newUserFriendList.push({
+            name: friend.name,
+            email: friend.email,
+            id: friend.id
+        })
+        user.friends = newUserFriendList
 
 
+        //? for friend
+        existance = false
+        friend.friends.map((obj) => {
+            if (obj.email == user.email) {
+                existance = true
+            }
+        })
+        //^ if already friends
+        if (existance) return next(new ErrorHandler("Already Friends!!", 400));
+
+        //^ push cross users in both documents
+        var newFriendsFriendList = friend.friends;
+        newFriendsFriendList.push({
+            name: user.name,
+            email: user.email,
+            id: user.id
+        })
+        friend.friends = newFriendsFriendList
     }
 
+    //* remove cross requests from both requests and request Sent
+
+    //? for user
+    user.requests = user.requests.filter((obj) => {
+        if (obj.email !== friend.email) {
+            return true
+        } else {
+            return false
+        }
+    })
+    await user.save()
+
+    //? for friend
+    console.log('friend.requests :>> ', friend.requests);
+    friend.requestSent = friend.requestSent.filter((obj) => {
+        if (obj.email !== user.email) {
+            return true
+        } else {
+            return false
+        }
+    })
+    await friend.save()
+
+
     res.status(200).json({
-        success: true
+        success: true,
+        user: user
     })
 })

@@ -4,10 +4,12 @@ import { Body, Header, IconWrapper, OnlineFriendsWrapper, TextInput, Wrapper } f
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { AnimatePresence, motion } from "framer-motion"
+import FriendsList from "../Friends List/FriendsList";
 
 const MidBar = () => {
   const dispatch = useDispatch()
   const { theme } = useSelector(state => state.native)
+  const { userData } = useSelector(state => state.user)
 
   const HelperBgRipple = (event) => {
     dispatch(ChangeTheme())
@@ -55,13 +57,16 @@ const MidBar = () => {
 
         {/* //* online friends */}
         <OnlineFriendsWrapper>
-          <div className="MidBar-OnlineFriendsWrapper-onlines-header-dot"></div>
-          <p className="MidBar-OnlineFriendsWrapper-onlines-header">Online</p>
+          <p className="MidBar-OnlineFriendsWrapper-onlines-header">chats</p>
 
           <TextInput
             placeholder="Search for friend"
             theme={theme}
           />
+
+          {
+            userData && (<FriendsList friendList={userData.friends} />)
+          }
 
         </OnlineFriendsWrapper>
       </Body>

@@ -1,12 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 import { getChatAPI } from "../../config";
 
 
-export const getChat = createAsyncThunk(
+export const getChatThunk = createAsyncThunk(
     'chat/getChat',
-    async ({ userID, friendID }, { rejectWithValue }) => {
+    async ({ friendID }, { rejectWithValue }) => {
         try {
-            const { data } = await axios.post(getChatAPI, { memberIDs: [userID, friendID] }, apiHeaderConfig)
+            const { data } = await axios.get(`${getChatAPI}?friend=${friendID}`)
             console.log('hi Harxh!!!', data);
             return data
         }
@@ -15,3 +16,4 @@ export const getChat = createAsyncThunk(
         }
     }
 )
+

@@ -4,31 +4,11 @@ const Chat = require("../model/chatModel");
 
 
 exports.startChatRoom = catchAsyncErrors(async (req, res, next) => {
-    const { memberIDs } = req.body;
-    if (memberIDs.length === 0) {
-        return next(new ErrorHandler("No Users in Room!", 403))
-    }
-    console.log('memberIDs :>> ', memberIDs);
+    const friendID = req.query.friend;
 
-    const chat = await Chat.findOne({ members: { $all: memberIDs } });
-
-    if (chat) {
-        // send chat
-        res.status(200).json({
-            success: true,
-            chat: chat
-        })
-    } else {
-        // create and send it
-        chat = await Chat.create({
-            members: memberIDs,
-        })
-
-        res.status(200).json({
-            success: true,
-            chat: chat
-        })
-    }
+    res.status(200).json({
+        success: true
+    })
 })
 
 exports.sendMessage = catchAsyncErrors(async (req, res, next) => {

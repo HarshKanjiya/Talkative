@@ -33,7 +33,7 @@ const Requests = () => {
               exit={{ opacity: 0 }}
             >
               {
-                userData &&
+                userData && userData.requests &&
                 userData.requests.map((user, index) => {
 
                   return (

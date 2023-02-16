@@ -50,7 +50,7 @@ box-shadow: 0 0rem 1.5rem rgba(0,0,0,0.1);
     font-size: 1.3rem;
     font-weight: 600;
  }
-.ChatZone-Header-usermail{
+.ChatZone-Header-useremail{
     font-size: 0.85rem;
     opacity: 0.5;
 }
@@ -58,9 +58,8 @@ box-shadow: 0 0rem 1.5rem rgba(0,0,0,0.1);
 export const ChatMessages = styled.div`
 width: 100%;
 height: 100%;
-position: relative;
 overflow-y: scroll;
-padding: 1rem;
+padding: 0.2rem 0rem;
 overflow-x: hidden;
 background-image: ${props => (props.theme === "light" ? "linear-gradient(#FFDEE9,#B5FFFC)" : "linear-gradient(#0D324D,#7F5A83)")} ;
 

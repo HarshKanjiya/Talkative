@@ -6,7 +6,6 @@ const Chat = require("../model/chatModel");
 exports.startChatRoom = catchAsyncErrors(async (req, res, next) => {
     const friendID = req.query.friend;
 
-
     var chat = await Chat.findOne({ members: { $all: [friendID, req.user.id] } })
 
     if (chat) {
@@ -15,14 +14,9 @@ exports.startChatRoom = catchAsyncErrors(async (req, res, next) => {
             chat: chat
         })
     }
-
     chat = await Chat.create({
         members: [req.user.id, friendID]
     })
-
-    // console.log('chat :>> ', chat);
-
-
     res.status(200).json({
         success: true,
         chat: chat
@@ -30,21 +24,32 @@ exports.startChatRoom = catchAsyncErrors(async (req, res, next) => {
 })
 
 exports.sendMessage = catchAsyncErrors(async (req, res, next) => {
-    const { chatID, type, message } = req.body;
+    const { chatID, message } = req.body;
 
-    if (!senderID || !message) return next(new ErrorHandler("Something wrong with Id or message", 400))
+    if (!chatID || !message) return next(new ErrorHandler("Something wrong with Id or message", 400))
     if (message.trim() === "") return next(new ErrorHandler("Something wrong with message", 400))
 
     const chat = await Chat.findById(chatID);
 
     if (!chat) {
-        return next(new ErrorHandler("Chat room id doesnot exist!", 404));
+        return next(new ErrorHandler("Chat room id does not exist!", 404));
     }
 
-    console.log('chat :>> ', chat);
+    var newChat = chat.chat;
+    newChat.push({
+        senderID: req.user.id,
+        message: message
+    })
+    chat.chat = newChat;
+    chat.lastMessage = {
+        senderID: req.user.id,
+        message: message,
+        time: Date.now()
 
+    }
+    await chat.save();
 
-    res.status(200).json({ success: true })
+    res.status(200).json({ success: true, chat })
 
 
 })

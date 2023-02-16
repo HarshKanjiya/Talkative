@@ -21,7 +21,7 @@ const chatSchema = mongoose.Schema({
             default: Date.now()
         }
     }],
-    lastMessage: [{
+    lastMessage: {
         senderID: {
             type: mongoose.Schema.ObjectId,
             ref: "User",
@@ -37,7 +37,7 @@ const chatSchema = mongoose.Schema({
             type: Date,
             default: Date.now()
         }
-    }]
+    }
 }
     ,
     { timestamps: true })

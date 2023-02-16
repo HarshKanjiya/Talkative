@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { getChatAPI } from "../../config";
+import { apiHeaderConfig, getChatAPI, sendMsgAPI } from "../../config";
 
 
 export const getChatThunk = createAsyncThunk(
@@ -18,3 +18,21 @@ export const getChatThunk = createAsyncThunk(
     }
 )
 
+
+export const sendMsgThunk = createAsyncThunk(
+    'user/sendMsg',
+    async ({ message, chatID }, { rejectWithValue }) => {
+        try {
+            const { data } = await axios.post(sendMsgAPI, 
+                { message, chatID }, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            return data
+        }
+        catch (err) {
+            return rejectWithValue(err.response.data.message)
+        }
+    }
+)

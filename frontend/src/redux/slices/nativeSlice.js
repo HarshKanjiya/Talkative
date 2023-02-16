@@ -1,6 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit"
-import { getChatThunk } from "../thunk/chatThunk";
+import { getChatThunk, sendMsgThunk } from "../thunk/chatThunk";
 import { addFriendThunk, searchFriendThunk } from "../thunk/newFriendThunk";
 
 const nativeSlice = createSlice({
@@ -11,7 +11,8 @@ const nativeSlice = createSlice({
         nativeLoading: false,
         nativeError: null,
         screen: "chats",
-        currentChat: null
+        currentChat: null,
+        messageSent: false
     },
     reducers: {
         ChangeTheme: (state) => {
@@ -23,6 +24,9 @@ const nativeSlice = createSlice({
         clearNativeErrors: (state) => {
             state.nativeError = null
         },
+        clearMsgSentNative: (state) => {
+            state.messageSent = false
+        }
 
     },
     extraReducers: (builder) => {
@@ -50,8 +54,16 @@ const nativeSlice = createSlice({
             state.nativeLoading = false
             state.nativeError = payload
         });
+        //* chat send msg
+        builder.addCase(sendMsgThunk.fulfilled, (state, { payload }) => {
+            state.currentChat = payload,
+                state.messageSent = true
+        });
+        builder.addCase(sendMsgThunk.rejected, (state, { payload }) => {
+            state.nativeError = payload
+        });
     }
 })
 
-export const { ChangeTheme, clearNativeErrors, setScreen } = nativeSlice.actions
+export const { ChangeTheme, clearNativeErrors, setScreen, clearMsgSentNative } = nativeSlice.actions
 export default nativeSlice.reducer

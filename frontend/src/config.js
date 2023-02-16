@@ -25,3 +25,4 @@ export const friendRequestAPI = "/api/v1/friend/request"
 
 
 export const getChatAPI = "/api/v1/chat/getchat"
+export const sendMsgAPI = "/api/v1/chat/send"

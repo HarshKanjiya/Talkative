@@ -31,8 +31,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session())
 
-// app.use(bodyparser.urlencoded({ extended: false }));
-// app.use(bodyParser.json())
+
 app.use(cors({
     origin: [],
     withCredentials: true
@@ -65,6 +64,10 @@ app.use(errorMiddleWare);
 const server = http.createServer(app)
 
 const io = socketIO(server)
+
+io.on("connection", (socket) => {
+    console.log('suer');
+})
 
 
 module.exports = server;

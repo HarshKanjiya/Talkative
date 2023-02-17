@@ -23,7 +23,7 @@ const ChatZone = () => {
   }, [messageSent])
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView();
+    chatEndRef.current?.scrollIntoView({ transition: "smooth" });
   }, [currentChat])
 
 

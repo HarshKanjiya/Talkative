@@ -1,5 +1,5 @@
 const http = require('http');
-const socketIO = require('socket.io')
+const { Server } = require('socket.io')
 const express = require('express')
 const cors = require("cors")
 const dotenv = require('dotenv')
@@ -63,11 +63,12 @@ app.use(errorMiddleWare);
 
 const server = http.createServer(app)
 
-const io = socketIO(server)
+
+const io = new Server();
+io.attach(server);
 
 io.on("connection", (socket) => {
-    console.log('suer');
-})
-
+    console.log('object :>> ');
+});
 
 module.exports = server;

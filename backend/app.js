@@ -1,5 +1,7 @@
+// const http = require('http');
+
 const http = require('http');
-const { Server } = require('socket.io')
+const SocketIO = require("socket.io")
 const express = require('express')
 const cors = require("cors")
 const dotenv = require('dotenv')
@@ -41,7 +43,6 @@ app.use(cors({
 // app.use(express.static("client/build"));
 
 
-
 // routes
 const chat = require('./routes/chatRoute')
 const user = require('./routes/userRoutes');
@@ -61,14 +62,27 @@ app.use('/auth', auth)
 // middleware for error
 app.use(errorMiddleWare);
 
+
 const server = http.createServer(app)
+const io = new SocketIO.Server(5555, {
+    cors: {
+        origin: "http://localhost:5173"
+    }
+});
 
-
-const io = new Server();
-io.attach(server);
+let activeUsers = []
+const addUser = (userData, socketId) => {
+    let exist = activeUsers.find(user => user.id === userData.id)
+    if (!exist) activeUsers.push({ ...userData, socketId })
+}
 
 io.on("connection", (socket) => {
-    console.log('object :>> ');
-});
+    console.log("new User");
+
+    socket.on("addUser", (userData) => {
+        addUser(userData, socket.id);
+        io.emit("getActiveUsers",activeUsers)
+    })
+})
 
 module.exports = server;

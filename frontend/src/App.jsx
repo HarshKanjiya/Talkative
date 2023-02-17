@@ -8,7 +8,9 @@ import AuthPage from "./components/pages/Auth/AuthPage"
 import { AnimatePresence } from "framer-motion"
 import { googleAuthThunk, routineThunk } from "./redux/thunk/userThunk"
 
+import { io } from "socket.io-client"
 
+export const socket = io("http://localhost:5555")
 
 function App() {
 
@@ -18,10 +20,17 @@ function App() {
   const { theme } = useSelector(state => state.native)
   const { isAuthenticated } = useSelector(state => state.user)
 
+  
+
   useEffect(() => {
     dispatch(routineThunk({}))
     dispatch(googleAuthThunk({}))
+    socket.on('connect', (socket) => {
+      console.log('hi Harxh!!!');
+    })
   }, [])
+
+
 
   return (
     <div className="App" id={theme} >

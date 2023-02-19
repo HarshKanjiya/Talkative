@@ -12,22 +12,25 @@ const nativeSlice = createSlice({
         nativeError: null,
         screen: "chats",
         currentChat: null,
-        messageSent: false
+        messageSent: false,
+        activeUsers: []
     },
     reducers: {
         ChangeTheme: (state) => {
             state.theme = state.theme === "light" ? "dark" : "light";
         },
         setScreen: (state, { payload }) => {
-            state.screen = payload
+            state.screen = payload;
         },
         clearNativeErrors: (state) => {
-            state.nativeError = null
+            state.nativeError = null;
         },
         clearMsgSentNative: (state) => {
-            state.messageSent = false
+            state.messageSent = false;
+        },
+        setActiveUsers: (state, { payload }) => {
+            state.activeUsers = payload;
         }
-
     },
     extraReducers: (builder) => {
         builder.addCase(searchFriendThunk.pending, (state, { payload }) => {
@@ -65,5 +68,5 @@ const nativeSlice = createSlice({
     }
 })
 
-export const { ChangeTheme, clearNativeErrors, setScreen, clearMsgSentNative } = nativeSlice.actions
+export const { ChangeTheme, clearNativeErrors, setScreen, clearMsgSentNative,setActiveUsers } = nativeSlice.actions
 export default nativeSlice.reducer

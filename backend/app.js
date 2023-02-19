@@ -66,22 +66,49 @@ app.use(errorMiddleWare);
 const server = http.createServer(app)
 const io = new SocketIO.Server(5555, {
     cors: {
-        origin: "http://localhost:5173"
+        origin: "*"
     }
 });
 
 let activeUsers = []
 const addUser = (userData, socketId) => {
-    let exist = activeUsers.find(user => user.id === userData.id)
-    if (!exist) activeUsers.push({ ...userData, socketId })
+    !activeUsers.some(user => user.email === userData.email) ?
+        activeUsers.push({ ...userData, socketId })
+        :
+        activeUsers.map((user) => {
+            if (user.email === userData.email) {
+                user.socketId = socketId;
+            }
+        })
+}
+const getUser = (friendID) => {
+    let x;
+    activeUsers.map((user) => {
+        if (user._id === friendID) {
+            x = user
+        }
+    })
+    return x
 }
 
 io.on("connection", (socket) => {
-    console.log("new User");
 
     socket.on("addUser", (userData) => {
         addUser(userData, socket.id);
-        io.emit("getActiveUsers",activeUsers)
+        io.emit("getActiveUsers", activeUsers)
+    })
+
+    socket.on("newMsg", (data) => {
+        const user = getUser(data.friendID)
+        // console.log(user);
+        // console.log('new msg from', data.senderID, ' \n to', data.friendID);
+        if (user) {
+            // console.log('user.socketId :>> ', user.socketId);
+            io.to(user.socketId).emit("needToUpdate", data)
+        }
+    })
+    socket.on("removeme", (data) => {
+        console.log('data :>> ', data);
     })
 })
 

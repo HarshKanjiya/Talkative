@@ -16,7 +16,7 @@ const FriendsComponent = ({ name, id, theme, index }) => {
             animate={{ opacity: 1, x: "0%" }}
             exit={{ opacity: 0, x: "20%" }}
             transition={{ delay: 0.2 * index, type: "tween" }}
-            theme={theme} onClick={() => { dispatch(getChatThunk({ friendID: id, name: name })) }} >
+            theme={theme} onClick={() => { dispatch(getChatThunk({ friendID: id, name: name})) }} >
 
             {name}
             <div className='FriendsComponent-lastmsg-wrapper' >

@@ -1,8 +1,9 @@
 import styled from '@emotion/styled'
 import { AnimatePresence } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { socket } from '../../../App'
+import { setActiveUsers } from '../../../redux/slices/nativeSlice'
 import FriendsComponent from '../../components/Friends list Home page/FriendsComponent'
 
 
@@ -13,18 +14,17 @@ import FriendsComponent from '../../components/Friends list Home page/FriendsCom
 const FriendsList = ({ friendList }) => {
     const { theme } = useSelector(state => state.native)
     const { userData } = useSelector(state => state.user)
-
-    const [users, setUsers] = useState([])
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (userData) {
-            socket.emit('addUser', userData)
-            socket.on("getActiveUsers", (activeUsers) => {
-                setUsers(activeUsers)
-                console.log('hi Harxh!!!', users);
+            socket.emit('addUser', userData);
+            socket.on("getActiveUsers", activeUsers => {
+                dispatch(setActiveUsers(activeUsers))
             })
         }
-    }, [])
+    }, [userData])
+
     return (
         <Wrapper>
             <AnimatePresence mode='sync' >

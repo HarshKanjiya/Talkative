@@ -18,16 +18,14 @@ function App() {
   const dispatch = useDispatch();
 
   const { theme } = useSelector(state => state.native)
-  const { isAuthenticated } = useSelector(state => state.user)
-
-  
+  const { userData } = useSelector(state => state.user)
 
   useEffect(() => {
     dispatch(routineThunk({}))
     dispatch(googleAuthThunk({}))
-    socket.on('connect', (socket) => {
-      console.log('hi Harxh!!!');
-    })
+    socket.on('disconnected', () => {
+      socket.emit('removeme', { userID: userData._id })
+    });
   }, [])
 
 

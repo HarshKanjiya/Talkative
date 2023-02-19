@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { bgcolor } from '@mui/system'
 import { motion } from 'framer-motion'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,12 +7,15 @@ import { addFriendThunk } from '../../../redux/thunk/newFriendThunk'
 
 
 
-const UserComponent = ({ user, type, buttonBG, index }) => {
+const UserComponent = ({ user, type, buttonBG, index, allowReq }) => {
     const dispatch = useDispatch()
     const { theme } = useSelector(state => state.native)
 
     const HelperClick = () => {
-        dispatch(addFriendThunk({ friendID: user._id }))
+        if (allowReq) {
+            dispatch(addFriendThunk({ friendID: user._id }))
+
+        }
     }
 
     return (
@@ -22,6 +26,7 @@ const UserComponent = ({ user, type, buttonBG, index }) => {
             transition={{ delay: 0.2 * index, type: "tween" }}
             theme={theme}
             buttonBG={buttonBG}
+            allowReq={allowReq}
         >
             <div className='searchfriend-user-left' >
                 <p className='searchfriend-user-left-name'>{user.name}</p>
@@ -41,8 +46,7 @@ width: 98%;
 cursor: default;
 padding: 1rem;
 margin: 0.5rem 0;
-/* background-color: ${props => (props.theme === "light" ? "rgba(0,0,0,0)" : "rgba(255,255,255,0.1)")} ; */
-box-shadow:  ${props => (props.theme === "light" ? "0 3px 1rem rgba(0,0,0,0.08)" : "0 5px 1.4rem rgba(255,255,255,0.02)")};
+box-shadow:  ${props => (props.theme === "light" ? "0 3px 1rem rgba(0,0,0,0.05)" : "0 5px 1.4rem rgba(255,255,255,0.02)")};
 display: flex;
 align-items: center;
 justify-content: space-between;
@@ -65,8 +69,11 @@ border:${props => (props.theme === "light" ? "2px solid rgba(0,0,0,0.05)" : "2px
     align-items: center;
     gap:1rem;
     button{
-        cursor: pointer;
+        cursor: ${props => (props.allowReq ? "pointer" : "default")} ;
         transition: 300ms;
+        /* box-shadow:  ${props => (props.allowReq ? `0 0.7rem 0.8rem -5px ${props.buttonBG}60` : "none")}; */
+        box-shadow:  ${props => (props.allowReq ? `0 1px 1.4rem -1px ${props.buttonBG}a1` : "none")};
+        /* border: ${props => (props.allowReq ? "" : "none")}; */
     }
     .searchfriend-user-sendReqBtn{
         padding: 0.5rem 1rem;
@@ -108,8 +115,6 @@ border:${props => (props.theme === "light" ? "2px solid rgba(0,0,0,0.05)" : "2px
             background-color: #f82929;
             color:#fff;
         }
-
     }
-
 }
 `

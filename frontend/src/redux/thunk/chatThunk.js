@@ -21,10 +21,10 @@ export const getChatThunk = createAsyncThunk(
 
 export const sendMsgThunk = createAsyncThunk(
     'user/sendMsg',
-    async ({ message, chatID }, { rejectWithValue }) => {
+    async ({ message, chatID, name }, { rejectWithValue }) => {
         try {
-            const { data } = await axios.post(sendMsgAPI, 
-                { message, chatID }, {
+            const { data } = await axios.post(sendMsgAPI,
+                { message, chatID, name }, {
                 headers: {
                     "Content-Type": "application/json"
                 }

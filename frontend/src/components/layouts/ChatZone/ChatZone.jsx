@@ -19,7 +19,7 @@ const ChatZone = () => {
 
   useEffect(() => {
     socket.on("needToUpdate", (data) => {
-      let currentFriend = currentChat.chat.members.filter(id => id !== userData._id)[0]
+      let currentFriend = currentChat && currentChat.chat.members.filter(id => id !== userData._id)[0]
       if (currentFriend === data.senderID) {
         dispatch(getChatThunk({ friendID: data.senderID, name: data.name }))
       }
@@ -42,10 +42,10 @@ const ChatZone = () => {
 
   const HelperKeyUp = (e) => {
     if (e.code !== "Enter") return
-    dispatch(sendMsgThunk({ message: input, chatID: currentChat.chat._id }))
+    dispatch(sendMsgThunk({ message: input, chatID: currentChat.chat._id, name: currentChat.name }))
   }
   const HelperKeyPress = () => {
-    if (input.trim() !== "") dispatch(sendMsgThunk({ message: input, chatID: currentChat.chat._id }))
+    if (input.trim() !== "") dispatch(sendMsgThunk({ message: input, chatID: currentChat.chat._id, name: currentChat.name }))
   }
 
   useEffect(() => {

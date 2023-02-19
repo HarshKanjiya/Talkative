@@ -9,7 +9,7 @@ import ScreenHeader from '../../components/ScreenHeader'
 import UserComponent from '../../components/search friend/userComponent'
 
 import { LoadingWrapper, ResultWrapper, TextInput, Wrapper } from './newfriend.styles'
-
+import { NoObj } from "../Requests List/requests.styles"
 
 const NewFriend = () => {
   const dispatch = useDispatch()
@@ -17,6 +17,7 @@ const NewFriend = () => {
   const { userData, error, loading } = useSelector(state => state.user)
 
   const [inputString, setInputString] = useState('')
+
 
   useEffect(() => {
     if (nativeError) {
@@ -62,35 +63,38 @@ const NewFriend = () => {
               exit={{ opacity: 0 }}
             >
               {
-                searchResults.map((user, index) => {
-                  var type = "Add Friend";
-                  var buttonBG = "#00c898";
-                  userData.requestSent.map((obj) => {
-                    if (obj.id === user._id) {
-                      type = 'Sent!'
-                      buttonBG = "#2AF598"
+                searchResults.length > 0 ?
+                  searchResults.map((user, index) => {
+                    var type = "Add Friend";
+                    var buttonBG = "#00c898";
+                    userData.requestSent.map((obj) => {
+                      if (obj.id === user._id) {
+                        type = 'Sent!'
+                        buttonBG = "#2AF598"
+                      }
+                    })
+                    if (type === 'Add Friend') {
+                      userData.friends.map((obj) => {
+                        if (obj.id === user._id) {
+                          type = 'friends';
+                          buttonBG = "#52ACFF";
+                        }
+                      })
                     }
+                    if (type === 'Add Friend') {
+                      userData.blockList.map((obj) => {
+                        if (obj.id === user._id) {
+                          type = 'blocked!';
+                          buttonBG = "#f82929";
+                        }
+                      })
+                    }
+                    return (
+                      <UserComponent user={user} key={index} type={type} buttonBG={buttonBG} index={index} allowReq={type === "Add Friend"} />
+                    )
                   })
-                  if (type === 'Add Friend') {
-                    userData.friends.map((obj) => {
-                      if (obj.id === user._id) {
-                        type = 'friends';
-                        buttonBG = "#52ACFF";
-                      }
-                    })
-                  }
-                  if (type === 'Add Friend') {
-                    userData.blockList.map((obj) => {
-                      if (obj.id === user._id) {
-                        type = 'blocked!';
-                        buttonBG = "#f82929";
-                      }
-                    })
-                  }
-                  return (
-                    <UserComponent user={user} key={index} type={type} buttonBG={buttonBG} index={index} />
-                  )
-                })
+                  :
+                  <NoObj><p>Start adding some Friends to talk with</p></NoObj>
               }
             </ResultWrapper>
           )

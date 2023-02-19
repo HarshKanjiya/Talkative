@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import RequestComponent from '../../components/Request List/RequestComponent'
 import ScreenHeader from '../../components/ScreenHeader'
 import { LoadingWrapper, ResultWrapper, Wrapper } from '../search friend/newfriend.styles'
+import { NoObj } from './requests.styles'
 // import { Wrapper } from './requests.styles'
 
 const Requests = () => {
@@ -33,13 +34,16 @@ const Requests = () => {
               exit={{ opacity: 0 }}
             >
               {
-                userData && userData.requests &&
-                userData.requests.map((user, index) => {
+                userData &&
+                  userData.requests.length > 0 ?
+                  userData.requests.map((user, index) => {
 
-                  return (
-                    <RequestComponent user={user} key={index} index={index} />
-                  )
-                })
+                    return (
+                      <RequestComponent user={user} key={index} index={index} />
+                    )
+                  })
+                  :
+                  <NoObj><p>No Requests!</p></NoObj>
               }
             </ResultWrapper>
           )

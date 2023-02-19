@@ -24,7 +24,7 @@ exports.startChatRoom = catchAsyncErrors(async (req, res, next) => {
 })
 
 exports.sendMessage = catchAsyncErrors(async (req, res, next) => {
-    const { chatID, message } = req.body;
+    const { chatID, message, name } = req.body;
 
     if (!chatID || !message) return next(new ErrorHandler("Something wrong with Id or message", 400))
     if (message.trim() === "") return next(new ErrorHandler("Something wrong with message", 400))
@@ -49,7 +49,7 @@ exports.sendMessage = catchAsyncErrors(async (req, res, next) => {
     }
     await chat.save();
 
-    res.status(200).json({ success: true, chat })
+    res.status(200).json({ success: true, chat, name })
 
 
 })

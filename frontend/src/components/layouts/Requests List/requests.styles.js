@@ -6,3 +6,10 @@ height: 100%;
 background-color: blue;
 
 `
+export const NoObj = styled.div`
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+opacity: 0.5;
+`

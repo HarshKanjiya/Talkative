@@ -12,6 +12,7 @@ import { googleAuthThunk } from '../../../redux/thunk/userThunk'
 import styled from '@emotion/styled'
 import NewFriend from '../../layouts/search friend/NewFriend'
 import Requests from '../../layouts/Requests List/Requests'
+import AboutMe from '../../layouts/About me/AboutMe'
 
 const HomePage = () => {
 
@@ -87,6 +88,19 @@ const HomePage = () => {
 
                         >
                             <Requests />
+                        </motion.div>
+                    )
+                }{
+                    screen === "aboutme" && (
+                        <motion.div
+                            key="about me"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            style={{ heigth: "100%", width: "100%" }}
+
+                        >
+                            <AboutMe />
                         </motion.div>
                     )
                 }

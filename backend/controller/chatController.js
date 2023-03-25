@@ -1,6 +1,7 @@
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
 const Chat = require("../model/chatModel");
+const User = require("../model/userModel");
 
 
 exports.startChatRoom = catchAsyncErrors(async (req, res, next) => {
@@ -53,3 +54,4 @@ exports.sendMessage = catchAsyncErrors(async (req, res, next) => {
 
 
 })
+

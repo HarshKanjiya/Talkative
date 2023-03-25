@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { getChatThunk } from '../../../redux/thunk/chatThunk';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const FriendsComponent = ({ name, id, theme, index }) => {
     const dispatch = useDispatch()
@@ -16,9 +17,14 @@ const FriendsComponent = ({ name, id, theme, index }) => {
             animate={{ opacity: 1, x: "0%" }}
             exit={{ opacity: 0, x: "20%" }}
             transition={{ delay: 0.2 * index, type: "tween" }}
-            theme={theme} onClick={() => { dispatch(getChatThunk({ friendID: id, name: name})) }} >
+            theme={theme}>
 
-            {name}
+            <div className='btn-layer' onClick={() => { dispatch(getChatThunk({ friendID: id, name: name })) }} ></div>
+
+            <p>{name}</p>
+            <div className='more-btn' onClick={() => { console.log("hi") }} >
+                <MoreVertIcon fontSize='small' />
+            </div>
             <div className='FriendsComponent-lastmsg-wrapper' >
                 <p className='FriendsComponent-lastmsg-msg'>{lastMsg}</p>
                 <p className='FriendsComponent-lastmsg-time'>9:20 PM</p>
@@ -31,6 +37,7 @@ const FriendsComponent = ({ name, id, theme, index }) => {
 export default FriendsComponent
 const Wrapper = styled(motion.div)`
 cursor:pointer;
+position: relative;
 width: 100%;
 padding: 0.35rem 0.8rem;
 box-shadow:  ${props => (props.theme === "light" ? "0 1px 1rem rgba(0,0,0,0.05)" : "0 1px 1.4rem rgba(255,255,255,0.02)")};
@@ -40,6 +47,33 @@ flex-direction: column;
 justify-content: space-between;
 border-radius: 4px;
 margin: 0.3rem 0;
+
+.btn-layer{
+    position: absolute;
+    z-index: 10;
+    content: " ";
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+}
+
+.more-btn{
+position: absolute;
+z-index: 20;
+right: 0;
+top: 0;
+height: 1.5rem;
+width: 1.5rem;
+display: flex;
+justify-content: center;
+align-content: center;
+border-radius:0 4px 0 50%;
+transition: 300ms;
+&:hover{
+    background-color:  ${props => (props.theme === "light" ? "rgba(0,0,0,0.2)" : "rgba(255,255,255,0.2)")};
+}
+}
 
 .FriendsComponent-lastmsg-wrapper{
     display: flex;

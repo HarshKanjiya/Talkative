@@ -13,6 +13,7 @@ import styled from '@emotion/styled'
 import NewFriend from '../../layouts/search friend/NewFriend'
 import Requests from '../../layouts/Requests List/Requests'
 import AboutMe from '../../layouts/About me/AboutMe'
+import BlockList from '../../layouts/block List/BlockList'
 
 const HomePage = () => {
 
@@ -101,6 +102,19 @@ const HomePage = () => {
 
                         >
                             <AboutMe />
+                        </motion.div>
+                    )
+                }{
+                    screen === "blocklist" && (
+                        <motion.div
+                            key="about me"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            style={{ heigth: "100%", width: "100%" }}
+
+                        >
+                            <BlockList />
                         </motion.div>
                     )
                 }

@@ -341,3 +341,61 @@ exports.requestJudgment = catchAsyncErrors(async (req, res, next) => {
         user: user
     })
 })
+
+exports.blockFriend = catchAsyncErrors(async (req, res, next) => {
+    const FriendID = req.query.id;
+    const opration = req.query.op;
+
+    const user = await User.findById(req.user.id);
+    const friend = await User.findById(FriendID);
+
+    console.log('user,friend :>> ', user, friend, opration);
+
+    // if (!friend) return next(new ErrorHandler("invalid id!", 400))
+
+    // if (opration === "add") {
+    //     //^ removing friend from user
+    //     user.friends.filter((obj) => {
+    //         if (obj.email !== friend.email) {
+    //             return true
+    //         }
+    //     })
+
+    //     //^ removing friend from friend
+    //     friend.friends.filter((obj) => {
+    //         if (obj.email !== user.email) {
+    //             return true
+    //         }
+    //     })
+
+    //     //^ adding to blocklist
+    //     var newBlockList = user.blockList;
+    //     newBlockList.push({
+    //         name: friend.name,
+    //         email: friend.email,
+    //         id: friend.id
+    //     })
+    //     user.blockList = newBlockList
+    // }
+    // else if (opration === "remove") {
+    //     var newBlockList = user.blockList;
+    //     newBlockList.filter((obj) => {
+    //         if (obj.email !== friend.email) {
+    //             return true
+    //         }
+    //     })
+    //     user.blockList = newBlockList
+
+    //     var newFriendsList = user.friends;
+    //     newFriendsList.push({
+    //         name: friend.name,
+    //         email: friend.email,
+    //         id: friend.id
+    //     })
+    //     user.friends = newFriendsList
+    // }
+
+    // await user.save()
+
+    res.status(200).json({ success: true, chat, name })
+})

@@ -140,7 +140,7 @@ const SideBar = () => {
           {/* //* requests */}
           <SideBarElement theme={theme} extended={extended} onClick={() => { dispatch(setScreen('requests')) }}>
             <abbr title="Requests" className="modeAbbr" >
-              <Badge variant="dot" color="primary" invisible={userData && userData.requests && userData.requests.length < 1 } >
+              <Badge variant="dot" color="primary" invisible={userData && userData.requests && userData.requests.length < 1} >
                 <PersonIcon />
               </Badge>
             </abbr>
@@ -160,7 +160,7 @@ const SideBar = () => {
 
           {/* //* block list */}
           <SideBarElement theme={theme} extended={extended} onClick={() => { dispatch(setScreen('blocklist')) }}>
-            <abbr title="Profile" className="modeAbbr" >
+            <abbr title="Block List" className="modeAbbr" >
               <BlockIcon />
             </abbr>
             {
